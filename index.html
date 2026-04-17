@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; font-src 'self' https://fonts.gstatic.com;" />
+  <!-- Favicon Otimizado -->
+  <link rel="icon" type="image/png" href="/img/5ace780f-e5ce-458f-b867-2a8b4600c760-removebg-preview.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Meta Tags Básicas -->
+  <title>Gabriel Web</title>
+  <meta name="description"
+    content="Gabriel Web - Criamos o futuro digital do seu negócio. Soluções e desenvolvimento web de alto nível focados em performance e conversão." />
+
+  <!-- Google Analytics (GA4) - Substitua G-WNSS6BS7KQ pelo seu ID real -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WNSS6BS7KQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-WNSS6BS7KQ');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+      /* smooth breaks the effect */
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #e5e7eb;
+      overflow-x: hidden;
+    }
+
+    /* ===== SCROLL WRAPPER (creates the scroll space) ===== */
+    .scroll-wrapper {
+      min-height: 300vh;
+    }
+
+    /* ===== STICKY VIEWPORT ===== */
+    .sticky-viewport {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* ===== MAIN CARD CONTAINER ===== */
+    .card-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      box-shadow: none;
+      background: #fff;
+    }
+
+    /* ===== 1. BACKGROUND IMAGE (mouse parallax) ===== */
+    .parallax-bg {
+      position: absolute;
+      inset: -10%;
+      width: 120%;
+      height: 120%;
+      background: #050a14;
+      /* Fallback */
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+      overflow: hidden;
+    }
+
+    .parallax-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.7) contrast(1.1);
+    }
+
+    .parallax-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+      z-index: 1;
+    }
+
+    /* ===== 2. TEXT MASK LAYER ===== */
+    .text-mask {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      color: #000;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 10;
+      transform-origin: 50% 50%;
+      will-change: transform, opacity;
+      transition: opacity 0.3s ease;
+    }
+
+    .text-mask h1 {
+      font-size: clamp(40px, 12vw, 200px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      user-select: none;
+      white-space: nowrap;
+      /* Animação de entrada */
+      animation: tracking-in-contract-bck-top 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.5s both;
+    }
+
+    @keyframes tracking-in-contract-bck-top {
+      0% {
+        letter-spacing: 1em;
+        transform: translateZ(400px) translateY(-300px);
+        opacity: 0;
+      }
+
+      40% {
+        opacity: 0.6;
+      }
+
+      100% {
+        transform: translateZ(0) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* ===== 3. SCROLL HINT ===== */
+    .scroll-hint {
+      position: absolute;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 20;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .scroll-hint__arrow {
+      animation: bounceDown 1.5s ease-in-out infinite;
+    }
+
+    .scroll-hint__arrow svg {
+      width: 24px;
+      height: 24px;
+      stroke: #9ca3af;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .scroll-hint__text {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+
+    @keyframes bounceDown {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(8px);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    /* ===== 4. REVEALED CONTENT (appears at end of scroll) ===== */
+    .revealed-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+      z-index: 30;
+      transition: opacity 0.4s ease;
+    }
+
+    @media (min-width: 768px) {
+      .revealed-content {
+        padding: 4rem;
+      }
+    }
+
+    .revealed-card {
+      /* 1. Fundo com gradiente para simular luz na superfície */
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.05));
+      position: relative;
+      overflow: hidden;
+
+      /* 2. Mais desfoque para um vidro mais espesso */
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+
+      /* 3. Bordas assimétricas super realçadas (Efeito do "Sol") */
+      border-top: 2px solid rgba(255, 255, 255, 0.9);
+      border-left: 2px solid rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgba(255, 0, 0, 0.1);
+
+      /* 4. Sombra externa + Sombra interna (inset) para dar espessura */
+      box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4), inset 0 4px 12px rgba(255, 255, 255, 0.2);
+
+      /* Mantendo o tamanho responsivo e transições */
+      padding: 5rem 6rem;
+      border-radius: 3rem;
+      max-width: 70rem;
+      width: 95%;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    /* Brilho do "Sol" no canto superior esquerdo */
+    .revealed-card::before {
+      content: "";
+      position: absolute;
+      top: -150px;
+      left: -150px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .revealed-card h2 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      background: linear-gradient(to right,
+          #ffffff 20%,
+          #ffffff 40%,
+          #ebeaea 50%,
+          #ffffff 60%,
+          #ffffff 80%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
+      line-height: 1.05;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 10px 30px rgba(0, 0, 0, 0.5);
+      /* Animação de entrada + Brilho */
+      animation:
+        tracking-in-contract-bck-top 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) both,
+        shimmer 4s linear infinite;
+      animation-play-state: paused;
+      /* Será iniciada via JS ou quando visível */
+    }
+
+    .revealed-card p {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 300;
+      line-height: 1.65;
+    }
+
+    /* Ripple Button Styles */
+    .ripple-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-top: 2rem;
+    }
+
+    .ripple-aura {
+      position: absolute;
+      inset: -2rem;
+      background: rgba(255, 255, 255, 0.15);
+      filter: blur(50px);
+      opacity: 0;
+      transition: opacity 0.7s ease;
+      pointer-events: none;
+      border-radius: 50%;
+    }
+
+    .ripple-wrapper:hover .ripple-aura {
+      opacity: 1;
+    }
+
+    .ripple-btn {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      padding: 1.2em 3.5em;
+      border: none;
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+      
+      /* Efeito VIDRO TECNOLÓGICO (Foco Aumentado) */
+      background: rgba(30, 30, 30, 0.5);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      
+      color: white;
+      text-decoration: none;
+      min-width: 360px;
+      height: 85px;
+      
+      /* Sombras e Bordas (Foco Solar Intensificado) */
+      box-shadow: 
+        15px 25px 50px rgba(0, 0, 0, 0.6),
+        0 0 30px rgba(255, 255, 255, 0.1), /* Brilho ambiente constante */
+        inset 1px 1px 3px rgba(255, 255, 255, 0.5);
+      
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-top-color: rgba(255, 255, 255, 0.7);
+      border-left-color: rgba(255, 255, 255, 0.7);
+
+      /* Pulsação de foco constante */
+      animation: focus-breathing 4s ease-in-out infinite;
+    }
+
+    @keyframes focus-breathing {
+      0%, 100% { transform: scale(1); box-shadow: 15px 25px 50px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.1); }
+      50% { transform: scale(1.02); box-shadow: 20px 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 255, 255, 0.2); }
+    }
+
+    .circuit-l, .circuit-r {
+      position: absolute;
+      height: 100%;
+      top: 0;
+      pointer-events: none;
+      opacity: 0.6; /* Mais visível */
+      transition: opacity 0.3s ease, transform 0.4s ease;
+    }
+
+    .circuit-l { left: 10px; width: 100px; }
+    .circuit-r { right: 10px; width: 40px; }
+
+    .ripple-btn:hover .circuit-l,
+    .ripple-btn:hover .circuit-r {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .inner-gloss {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        135deg, 
+        rgba(255, 255, 255, 0.15) 0%, 
+        rgba(255, 255, 255, 0.05) 40%,
+        transparent 100%
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .text-content {
+      position: relative;
+      z-index: 10;
+      letter-spacing: 1px;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Foco no texto */
+      pointer-events: none;
+      font-size: 1.6rem;
+      font-weight: 800;
+      text-transform: lowercase;
+    }
+
+    .ripple-btn .circle {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      height: 40px;
+      width: 40px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      animation: loopRipple 3.5s infinite ease-in-out;
+    }
+
+    .circle-1 {
+      animation-delay: 0s;
+    }
+
+    .circle-2 {
+      animation-delay: 0.7s;
+    }
+
+    .circle-3 {
+      animation-delay: 1.4s;
+    }
+
+    .circle-4 {
+      animation-delay: 2.1s;
+    }
+
+    .circle-5 {
+      animation-delay: 2.8s;
+    }
+
+    @keyframes loopRipple {
+      0% {
+        transform: translate(-120%, -120%) scale(0);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 0.7;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
+
+      100% {
+        transform: translate(60%, 60%) scale(8);
+        opacity: 0;
+      }
+    }
+
+    .ripple-btn:hover {
+      transform: translateY(-5px) translateX(2px) scale(1.03);
+      box-shadow:
+        15px 25px 50px -10px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(255, 255, 255, 0.3),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.6);
+      filter: brightness(1.3);
+    }
+
+    .ripple-btn:active {
+      transform: translateY(2px) scale(0.97);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .card-container {
+        height: 100vh;
+        border-radius: 0;
+      }
+
+      .revealed-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Scroll Wrapper: 300vh de espaço para o scroll animar o efeito -->
+  <div class="scroll-wrapper" id="scrollWrapper">
+
+    <!-- Sticky Viewport: fica fixo no ecrã enquanto rolamos -->
+    <div class="sticky-viewport">
+
+      <!-- Card Container Principal -->
+      <div class="card-container" id="cardContainer">
+
+        <!-- 1. Imagem/Vídeo de Fundo com Parallax no Mouse -->
+        <div class="parallax-bg" id="parallaxBg">
+          <video src="img/Flow_202604161935.mp4" autoplay loop muted playsinline
+            poster="img/faça_tipo_assim_202604152135.png"></video>
+        </div>
+
+        <!-- 2. Máscara de Texto (zoom no scroll) -->
+        <div class="text-mask" id="textMask">
+          <h1>Gabriel web</h1>
+        </div>
+
+        <!-- Dica de Scroll -->
+        <div class="scroll-hint" id="scrollHint">
+          <div class="scroll-hint__arrow">
+            <svg viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </div>
+          <span class="scroll-hint__text">Fazer scroll para baixo</span>
+        </div>
+
+        <!-- 3. Conteúdo Revelado no final -->
+        <div class="revealed-content" id="revealedContent">
+          <div class="revealed-card" id="revealedCard">
+            <h2>O próximo nível do seu negócio começa aqui</h2>
+            <p>
+              Desenvolvemos soluções digitais inteligentes para negócios que querem escalar com tecnologia, design e
+              automação.
+            </p>
+            <div class="ripple-wrapper">
+              <div class="ripple-aura"></div>
+              <button class="ripple-btn">
+                <div class="inner-gloss"></div>
+                
+                <!-- Circuitagem Esquerda (como na imagem) -->
+                <svg class="circuit-l" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="95" cy="25" r="3" fill="white" fill-opacity="0.8"/>
+                  <circle cx="85" cy="55" r="3" fill="white" fill-opacity="0.8"/>
+                  <circle cx="48" cy="33" r="2" fill="white" fill-opacity="0.6"/>
+                  <circle cx="10" cy="40" r="2" fill="white" fill-opacity="0.6"/>
+                </svg>
+
+                <span class="circle circle-1"></span>
+                <span class="circle circle-2"></span>
+                <span class="circle circle-3"></span>
+                <span class="circle circle-4"></span>
+                <span class="circle circle-5"></span>
+                
+                <span class="text-content">começar agora</span>
+
+                <!-- Ícone Chip/Engrenagem Direita -->
+                <svg class="circuit-r" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="20" height="20" rx="2" stroke="white" stroke-width="2"/>
+                  <path d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="20" cy="20" r="4" fill="white" fill-opacity="0.5"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ============================================================
+       VARIÁVEIS DOM
+    ============================================================ */
+    const scrollWrapper = document.getElementById('scrollWrapper');
+    const cardContainer = document.getElementById('cardContainer');
+    const parallaxBg = document.getElementById('parallaxBg');
+    const textMask = document.getElementById('textMask');
+    const scrollHint = document.getElementById('scrollHint');
+    const revealedContent = document.getElementById('revealedContent');
+    const revealedCard = document.getElementById('revealedCard');
+
+    let mouseX = 0, mouseY = 0;
+
+    /* ============================================================
+       MOUSE PARALLAX (fundo segue o rato)
+    ============================================================ */
+    cardContainer.addEventListener('mousemove', (e) => {
+      const rect = cardContainer.getBoundingClientRect();
+      const xNorm = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const yNorm = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      mouseX = xNorm * 20;
+      mouseY = yNorm * 20;
+      parallaxBg.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    });
+
+    cardContainer.addEventListener('mouseleave', () => {
+      mouseX = 0;
+      mouseY = 0;
+      parallaxBg.style.transform = `translate(0px, 0px)`;
+    });
+
+    /* ============================================================
+       SCROLL-DRIVEN ANIMATION
+    ============================================================ */
+    function onScroll() {
+      const rect = scrollWrapper.getBoundingClientRect();
+      const scrollDistance = -rect.top;
+      const maxScroll = rect.height - window.innerHeight;
+
+      // Progresso normalizado entre 0 e 1
+      let progress = scrollDistance / maxScroll;
+      progress = Math.max(0, Math.min(1, progress));
+
+      // --- Text Mask: zoom exponencial ---
+      const textScale = 1 + Math.pow(progress, 4) * 200;
+      textMask.style.transform = `scale(${textScale})`;
+
+      // Suave fade out para evitar fragmentos brancos no final (entre 85% e 98%)
+      const maskOpacity = progress < 0.85 ? 1 : Math.max(0, 1 - (progress - 0.85) * 8);
+      textMask.style.opacity = maskOpacity;
+
+      // --- Scroll Hint: desaparece logo no início ---
+      scrollHint.style.opacity = Math.max(0, 1 - progress * 10);
+
+      // --- Conteúdo Revelado: aparece apenas no final (entre 85% e 100%) ---
+      const contentOpacity = Math.min(1, Math.max(0, (progress - 0.85) * 6.6));
+      const contentTranslateY = (1 - contentOpacity) * 48;
+
+      revealedContent.style.opacity = contentOpacity;
+      revealedContent.style.pointerEvents = contentOpacity > 0.5 ? 'auto' : 'none';
+      revealedCard.style.transform = `translateY(${contentTranslateY}px)`;
+
+      // Gatilho para a animação do segundo título
+      if (progress > 0.85) {
+        revealedCard.querySelector('h2').style.animationPlayState = 'running';
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // Chamada inicial
+  </script>
+</body>
+
+</html>
