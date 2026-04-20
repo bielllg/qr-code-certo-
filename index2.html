@@ -9,16 +9,90 @@
     <!-- Google Fonts - Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        bgDark: '#050505',
+                        panelBg: '#111111',
+                        borderGrid: '#222222',
+                        brandPrimary: '#00f0ff',
+                        brandSecondary: '#7000ff',
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
+        /* Site Branding Styles (Plain CSS for maximum reliability) */
+        .site-branding {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .site-branding-text {
+            color: white;
+            font-weight: 800;
+            font-size: 10px;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            opacity: 0.4;
+            mix-blend-mode: difference;
+        }
+
+        .site-branding-logo {
+            width: 40px;
+            height: auto;
+            opacity: 0.3;
+            pointer-events: auto;
+            transition: all 0.3s ease;
+        }
+
+        .site-branding-logo:hover {
+            opacity: 0.7;
+            transform: scale(1.1);
+        }
+
+        @media (min-width: 768px) {
+            .site-branding {
+                padding: 2.5rem;
+            }
+
+            .site-branding-logo {
+                width: 60px;
+            }
+
+            .site-branding-text {
+                font-size: 12px;
+            }
+        }
+
         :root {
             /* Palette matched to index.html */
             --glass-light: rgba(255, 255, 255, 0.28);
             --glass-deep: rgba(255, 255, 255, 0.05);
             --border-highlight: rgba(255, 255, 255, 0.9);
             --border-shadow: rgba(255, 255, 255, 0.1);
-            
+
             --card-width: clamp(14em, 55vw, 19em);
             --n: 12;
             --radius: calc((var(--card-width) * 0.5 + 1.5em) / 0.2679);
@@ -41,7 +115,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Changed to flex-start to prevent top crowding */
+            padding-top: 6rem; /* Ensures the first item isn't glued to the top */
+            padding-bottom: 6rem; /* Ensures bottom isn't glued to the edge */
+            gap: 4rem; /* Espaçamento pequeno entre as seções */
             overflow-x: hidden;
             position: relative;
         }
@@ -85,7 +162,7 @@
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.6);
             margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .section-title {
@@ -93,7 +170,7 @@
             font-weight: 800;
             line-height: 1;
             letter-spacing: -0.04em;
-            
+
             background: linear-gradient(to right, #ffffff 20%, #ffffff96 40%, #ebeaea 50%, #ffffff75 60%, #ffffff 80%);
             background-size: 200% auto;
             -webkit-background-clip: text;
@@ -102,7 +179,15 @@
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
         }
 
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
 
         /* == 3D SLIDER ENGINE == */
         .slider-viewport {
@@ -127,8 +212,13 @@
         }
 
         @keyframes rotate-3d {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(-360deg); }
+            from {
+                transform: rotateY(0deg);
+            }
+
+            to {
+                transform: rotateY(-360deg);
+            }
         }
 
         .slider-viewport:hover .slider-ring {
@@ -143,49 +233,84 @@
             aspect-ratio: 10/14;
             position: relative;
             pointer-events: auto;
-            
+
             /* Glassmorphism from index.html revealed-card */
             background: linear-gradient(135deg, var(--glass-light), var(--glass-deep));
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            
+
             /* Thick real highlighting borders */
             border-top: 2px solid var(--border-highlight);
             border-left: 2px solid var(--border-highlight);
             border-bottom: 1px solid var(--border-shadow);
             border-right: 1px solid rgba(255, 255, 255, 0.05);
-            
+
             border-radius: 2.5rem;
-            
+
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2.5rem;
             text-align: center;
-            
+
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
             transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            
+
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 4px 12px rgba(255, 255, 255, 0.2);
             will-change: transform;
             cursor: pointer;
         }
 
         /* Distribution & Tilt */
-        .card:nth-child(1)  { --angle: 0deg;   }
-        .card:nth-child(2)  { --angle: 30deg;  }
-        .card:nth-child(3)  { --angle: 60deg;  }
-        .card:nth-child(4)  { --angle: 90deg;  }
-        .card:nth-child(5)  { --angle: 120deg; }
-        .card:nth-child(6)  { --angle: 150deg; }
-        .card:nth-child(7)  { --angle: 180deg; }
-        .card:nth-child(8)  { --angle: 210deg; }
-        .card:nth-child(9)  { --angle: 240deg; }
-        .card:nth-child(10) { --angle: 270deg; }
-        .card:nth-child(11) { --angle: 300deg; }
-        .card:nth-child(12) { --angle: 330deg; }
+        .card:nth-child(1) {
+            --angle: 0deg;
+        }
+
+        .card:nth-child(2) {
+            --angle: 30deg;
+        }
+
+        .card:nth-child(3) {
+            --angle: 60deg;
+        }
+
+        .card:nth-child(4) {
+            --angle: 90deg;
+        }
+
+        .card:nth-child(5) {
+            --angle: 120deg;
+        }
+
+        .card:nth-child(6) {
+            --angle: 150deg;
+        }
+
+        .card:nth-child(7) {
+            --angle: 180deg;
+        }
+
+        .card:nth-child(8) {
+            --angle: 210deg;
+        }
+
+        .card:nth-child(9) {
+            --angle: 240deg;
+        }
+
+        .card:nth-child(10) {
+            --angle: 270deg;
+        }
+
+        .card:nth-child(11) {
+            --angle: 300deg;
+        }
+
+        .card:nth-child(12) {
+            --angle: 330deg;
+        }
 
         .card {
             transform: rotateY(var(--angle)) translateZ(calc(-1 * var(--radius))) rotateY(15deg);
@@ -200,33 +325,39 @@
         }
 
         /* == ICON & CONTENT SYNC == */
+        /* Refined dynamic glass highlight instead of ugly blurry orbs */
         .card::before {
-          content: "";
-          position: absolute;
-          top: -80px;
-          left: -80px;
-          width: 200px;
-          height: 200px;
-          background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
-          pointer-events: none;
-          z-index: 1;
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent 40%);
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.5;
+            transition: opacity 0.5s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent 60%);
         }
 
         .card-icon-main {
-            width: 85px; 
+            width: 85px;
             height: 85px;
-            stroke: #fff; 
-            stroke-width: 1.2; 
+            stroke: #fff;
+            stroke-width: 1.2;
             fill: none;
             margin-bottom: 2rem;
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.4));
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
             z-index: 5;
         }
 
         .card:hover .card-icon-main {
             transform: scale(1.3) rotate(10deg);
-            filter: drop-shadow(0 0 25px rgba(255,255,255,0.8));
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.8));
         }
 
         .card-title {
@@ -253,172 +384,478 @@
         }
 
         .ripple-wrapper {
-          position: relative;
-          display: inline-block;
+            position: relative;
+            display: inline-block;
         }
 
         .ripple-aura {
-          position: absolute;
-          inset: -2rem;
-          background: rgba(255, 255, 255, 0.05);
-          filter: blur(50px);
-          opacity: 0;
-          transition: opacity 0.7s ease;
-          pointer-events: none;
-          border-radius: 50%;
+            position: absolute;
+            inset: -2rem;
+            background: rgba(255, 255, 255, 0.05);
+            filter: blur(50px);
+            opacity: 0;
+            transition: opacity 0.7s ease;
+            pointer-events: none;
+            border-radius: 50%;
         }
-        .ripple-wrapper:hover .ripple-aura { opacity: 1; }
+
+        .ripple-wrapper:hover .ripple-aura {
+            opacity: 1;
+        }
 
         .premium-btn {
-          font-family: 'Outfit', sans-serif;
-          font-weight: 800;
-          padding: 1.25rem 4rem;
-          border-radius: 14px;
-          position: relative;
-          cursor: pointer;
-          overflow: hidden;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 10;
-          background: rgba(0, 0, 0, 0.6);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          color: white;
-          text-decoration: none;
-          min-width: 320px;
-          height: 80px;
-          box-shadow: 10px 20px 40px rgba(0, 0, 0, 0.6), inset 1px 1px 3px rgba(255, 255, 255, 0.5);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-top-color: rgba(255, 255, 255, 0.7);
-          border-left-color: rgba(255, 255, 255, 0.7);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            padding: 1.25rem 4rem;
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: white;
+            text-decoration: none;
+            min-width: 320px;
+            height: 80px;
+            box-shadow: 10px 20px 40px rgba(0, 0, 0, 0.6), inset 1px 1px 3px rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top-color: rgba(255, 255, 255, 0.7);
+            border-left-color: rgba(255, 255, 255, 0.7);
         }
 
         .premium-btn:hover {
-          transform: translateY(-6px) scale(1.02);
-          box-shadow: 15px 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 255, 255, 0.2);
-          filter: brightness(1.2);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 15px 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 255, 255, 0.2);
+            filter: brightness(1.2);
         }
 
         .btn-text {
-          position: relative; z-index: 10; font-size: 1.4rem; letter-spacing: 2px; text-transform: lowercase;
+            position: relative;
+            z-index: 10;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            text-transform: lowercase;
         }
 
         .scanner-line {
-          position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-          background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2) 50%, transparent);
-          transform: skewX(-20deg); pointer-events: none;
-          animation: scan-move 5s infinite;
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2) 50%, transparent);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            animation: scan-move 5s infinite;
         }
-        @keyframes scan-move { 0% { left: -100%; } 50% { left: 100%; } 100% { left: 100%; } }
+
+        @keyframes scan-move {
+            0% {
+                left: -100%;
+            }
+
+            50% {
+                left: 100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
 
         /* HUD Corners from index.html */
         .btn-corner {
-          position: absolute; width: 15px; height: 15px; border: 2px solid rgba(255, 255, 255, 0.4);
-          z-index: 20; transition: all 0.4s ease; pointer-events: none;
-        }
-        .corner-tl { top: -5px; left: -5px; border-right: 0; border-bottom: 0; }
-        .corner-tr { top: -5px; right: -5px; border-left: 0; border-bottom: 0; }
-        .corner-bl { bottom: -5px; left: -5px; border-right: 0; border-top: 0; }
-        .corner-br { bottom: -5px; right: -5px; border-left: 0; border-top: 0; }
-
-        .ripple-wrapper:hover .corner-tl { transform: translate(-5px, -5px); border-color: #fff; }
-        .ripple-wrapper:hover .corner-tr { transform: translate(5px, -5px); border-color: #fff; }
-
-        /* == MOBILE OVERRIDES == */
-        @media (max-width: 600px) {
-            .slider-viewport { height: 500px; perspective: 800px; }
-            .section-title { font-size: 2.2rem; }
-            .premium-btn { min-width: 280px; height: 70px; }
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            z-index: 20;
+            transition: all 0.4s ease;
+            pointer-events: none;
         }
 
+        .corner-tl {
+            top: -5px;
+            left: -5px;
+            border-right: 0;
+            border-bottom: 0;
+        }
+
+        .corner-tr {
+            top: -5px;
+            right: -5px;
+            border-left: 0;
+            border-bottom: 0;
+        }
+
+        .corner-bl {
+            bottom: -5px;
+            left: -5px;
+            border-right: 0;
+            border-top: 0;
+        }
+
+        .corner-br {
+            bottom: -5px;
+            right: -5px;
+            border-left: 0;
+            border-top: 0;
+        }
+
+        .ripple-wrapper:hover .corner-tl {
+            transform: translate(-5px, -5px);
+            border-color: #fff;
+        }
+
+        .ripple-wrapper:hover .corner-tr {
+            transform: translate(5px, -5px);
+            border-color: #fff;
+        }
+
+        /* FAQ Specific Styles Integrated */
+        .text-glow {
+            background: linear-gradient(to right, #7e7e7e, #ffffff, #dbdbdb);
+            background-size: 200% auto;
+            color: #fff;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .message-enter {
+            animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+            padding: 4px 8px;
+        }
+
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background-color: #00f0ff;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+                box-shadow: 0 0 10px #00f0ff;
+            }
+        }
+
+
+
+        .question-chip {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-chip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.2), transparent);
+            transition: all 0.4s ease;
+        }
+
+        .question-chip:hover::before {
+            left: 100%;
+        }
+
+        .question-chip.used {
+            opacity: 0.4;
+            pointer-events: none;
+            border-color: #333;
+        }
+
+        .preserve-3d {
+            transform-style: preserve-3d;
+        }
+
+        /* O Tabuleiro Isométrico */
+        .isometric-board {
+            transform-style: preserve-3d;
+            transform: rotateX(55deg) rotateZ(-35deg);
+            transition: transform 0.5s ease;
+        }
+
+        /* Ajuste de escala para mobile para não cortar */
+        @media (max-width: 640px) {
+            .isometric-board {
+                transform: rotateX(55deg) rotateZ(-35deg) scale(0.65);
+            }
+        }
+
+        /* O Holograma - Estado Inicial (Escondido e em baixo) */
+        .hologram-popup {
+            transform-origin: bottom center;
+            transform: translateZ(20px) rotateZ(35deg) rotateX(-55deg) translateY(-20px) scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease-out;
+        }
+
+        /* O Holograma - Estado Ativo (Levantado e visível) */
+        .group:hover .hologram-popup {
+            transform: translateZ(60px) rotateZ(35deg) rotateX(-55deg) translateY(-60px) scale(1);
+            opacity: 1;
+        }
+
+        /* A Tecla - Estado Inicial */
+        .keycap-element {
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            transition: all 0.15s ease-out;
+            transform: translate(0px, 0px);
+            box-shadow: -2px -2px 0px rgba(255, 255, 255, 0.2) inset,
+                -1px 1px 0px var(--shadow-color),
+                -2px 2px 0px var(--shadow-color),
+                -3px 3px 0px var(--shadow-color),
+                -4px 4px 0px var(--shadow-color),
+                -5px 5px 0px var(--shadow-color),
+                -6px 6px 0px var(--shadow-color),
+                -7px 7px 0px var(--shadow-color),
+                -8px 8px 0px var(--shadow-color),
+                -9px 9px 0px var(--shadow-color),
+                -10px 10px 0px var(--shadow-color),
+                -11px 11px 0px var(--shadow-color),
+                -12px 12px 0px var(--shadow-color),
+                -13px 13px 0px var(--shadow-color),
+                -14px 14px 0px var(--shadow-color),
+                -15px 15px 30px rgba(0, 0, 0, 0.9);
+        }
+
+        /* A Tecla - Estado Ativo (Afundada com brilho da própria cor) */
+        .group:hover .keycap-element {
+            transform: translate(-12px, 12px);
+            box-shadow: -2px -2px 0px rgba(255, 255, 255, 0.2) inset,
+                -1px 1px 0px var(--shadow-color),
+                -2px 2px 0px var(--shadow-color),
+                -10px 10px 30px var(--shadow-color),
+                0px 0px 50px var(--base-color);
+        }
+
+        /* O Ícone - Estado Inicial */
+        .keycap-icon {
+            transition: all 0.3s ease-out;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.726));
+            opacity: 0.9;
+            transform: scale(1);
+        }
+
+        /* O Ícone - Estado Ativo (Brilhante e aumentado) */
+        .group:hover .keycap-icon {
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 1));
+            opacity: 1;
+            transform: scale(1.25);
+        }
+
+        .faq-section {
+            width: 100%;
+            padding: 4rem 1.5rem;
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
+        }
     </style>
+
 </head>
 
 <body>
 
+    <!-- Top Navigation Branding -->
+    <div class="site-branding">
+        <div class="site-branding-text">
+            gabriel web
+        </div>
+        <img src="img/5ace780f-e5ce-458f-b867-2a8b4600c760-removebg-preview.png" alt="Logo" class="site-branding-logo">
+    </div>
+
     <!-- 1. Video Parallax Background (Sync with index.html) -->
     <div class="parallax-bg" id="parallaxBg">
-        <img src="img/Glass_gradient_de_202604200021.jpeg" alt="Glass Gradient Background">
+        <img src="img/abstract low poly plexus design in black and white 0609.jpg" alt="Glass Gradient Background">
     </div>
 
     <header class="section-header">
-        <div class="section-subtitle">Gabriel Web Solutions</div>
-        <h1 class="section-title">Engenharia Digital</h1>
+        <div class="section-subtitle">Nossos Serviços</div>
+        <h1 class="section-title">Criamos o futuro digital do seu <br> negócio</h1>
     </header>
 
     <main class="slider-viewport">
         <div class="slider-ring">
-            
+
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"></path>
+                </svg>
                 <h3 class="card-title">Sites & LP</h3>
                 <p class="card-text">Interfaces de alta performance otimizadas para conversão.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M13 3l-2 3H8l-1 5h2l-2 7 10-10h-3l4-5h-5z"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <path d="M13 3l-2 3H8l-1 5h2l-2 7 10-10h-3l4-5h-5z"></path>
+                </svg>
                 <h3 class="card-title">Automação</h3>
                 <p class="card-text">Workflows inteligentes que economizam horas de trabalho.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M7 17l10-10M16 4l4 4M4 16l4 4"></path><circle cx="6" cy="18" r="1.5" fill="currentColor"></circle></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <path d="M7 17l10-10M16 4l4 4M4 16l4 4"></path>
+                    <circle cx="6" cy="18" r="1.5" fill="currentColor"></circle>
+                </svg>
                 <h3 class="card-title">Design</h3>
                 <p class="card-text">Design focado na percepção de valor e experiência.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M12 3l8 4.5v5.5c0 4.5-3.5 8-8 11-4.5-3-8-6.5-8-11v-5.5zM9 12l2 2l4-4"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <path d="M12 3l8 4.5v5.5c0 4.5-3.5 8-8 11-4.5-3-8-6.5-8-11v-5.5zM9 12l2 2l4-4"></path>
+                </svg>
                 <h3 class="card-title">Segurança</h3>
                 <p class="card-text">Proteção avançada para infraestruturas sensíveis.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                    <path d="M3 9h18M9 21V9"></path>
+                </svg>
                 <h3 class="card-title">Cerebral</h3>
                 <p class="card-text">Arquitetura de sistemas resilientes e escaláveis.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M3 3v18h18M18 7l-5 5-3-3-4 4"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <path d="M3 3v18h18M18 7l-5 5-3-3-4 4"></path>
+                </svg>
                 <h3 class="card-title">Consultoria</h3>
                 <p class="card-text">Estratégia digital focada em dominação de nicho.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2v1M5.6 5.6l.7.7M18.4 5.6l-.7.7M2 12h1M21 12h1M12 6c-3.3 0-6 2.7-6 6 0 2.5 1.4 4.5 3.5 5.5l.5.5h4l.5-.5c2.1-1 3.5-3 3.5-5.5 0-3.3-2.7-6-6-6z"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <path
+                        d="M9 18h6M10 22h4M12 2v1M5.6 5.6l.7.7M18.4 5.6l-.7.7M2 12h1M21 12h1M12 6c-3.3 0-6 2.7-6 6 0 2.5 1.4 4.5 3.5 5.5l.5.5h4l.5-.5c2.1-1 3.5-3 3.5-5.5 0-3.3-2.7-6-6-6z">
+                    </path>
+                </svg>
                 <h3 class="card-title">Inovação</h3>
                 <p class="card-text">Exploração de fronteiras tecnológicas e IA.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9h6v6H9zM12 2v2M12 20v2M2 12h2M20 12h2M15 2v2M15 20v2M9 2v2M9 20v2"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                    <path d="M9 9h6v6H9zM12 2v2M12 20v2M2 12h2M20 12h2M15 2v2M15 20v2M9 2v2M9 20v2"></path>
+                </svg>
                 <h3 class="card-title">IA Aplicada</h3>
                 <p class="card-text">Modelos generativos integrados ao operacional.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M17.5 19c2.5 0 4.5-2 4.5-4.5S20 10 17.5 10c-.2 0-.5 0-.7.1C16 7.4 13.5 6 11 6 7.7 6 5 8.7 5 12c0 .2 0 .3 0 .5C3.3 13.2 2 15 2 17c0 2.2 1.8 4 4 4h11.5"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <path
+                        d="M17.5 19c2.5 0 4.5-2 4.5-4.5S20 10 17.5 10c-.2 0-.5 0-.7.1C16 7.4 13.5 6 11 6 7.7 6 5 8.7 5 12c0 .2 0 .3 0 .5C3.3 13.2 2 15 2 17c0 2.2 1.8 4 4 4h11.5">
+                    </path>
+                </svg>
                 <h3 class="card-title">Nuvem</h3>
                 <p class="card-text">Migração e gestão de infraestrutura Cloud Labs.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3"></path><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                    <path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3"></path>
+                    <path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path>
+                </svg>
                 <h3 class="card-title">Analytics</h3>
                 <p class="card-text">Visualização profunda e mineração de dados.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <path d="M12 19V5M5 12l7-7 7 7"></path>
+                </svg>
                 <h3 class="card-title">Escala</h3>
                 <p class="card-text">Growth hacking focado no core business digital.</p>
             </div>
 
             <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="19" r="2"></circle><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><path d="M12 7v2M12 15v2M7 12h2M15 12h2"></path></svg>
+                <svg class="card-icon-main" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <circle cx="12" cy="5" r="2"></circle>
+                    <circle cx="12" cy="19" r="2"></circle>
+                    <circle cx="5" cy="12" r="2"></circle>
+                    <circle cx="19" cy="12" r="2"></circle>
+                    <path d="M12 7v2M12 15v2M7 12h2M15 12h2"></path>
+                </svg>
                 <h3 class="card-title">Interconexão</h3>
                 <p class="card-text">Ecossistema total de APIs e integrações.</p>
             </div>
@@ -426,17 +863,325 @@
         </div>
     </main>
 
+    <!-- Seção: Botão WhatsApp LED Pro -->
+    <section class="relative flex flex-col items-center justify-center py-32 overflow-hidden w-full">
+        <style>
+            :root {
+                --wa-green: #25D366;
+                --wa-dark: #075E54;
+            }
+
+            /* --- ILUMINAÇÃO GLOBAL (O SOL) --- */
+            .solar-flare {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 700px;
+                height: 700px;
+                border-radius: 50%;
+                background: radial-gradient(circle, rgba(37, 211, 102, 0.15) 0%, rgba(37, 211, 102, 0.05) 45%, rgba(0, 0, 0, 0) 70%);
+                filter: blur(90px);
+                z-index: 1;
+                pointer-events: none;
+                animation: sunPulse 8s infinite alternate ease-in-out;
+            }
+
+            .bloom-light {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 300px;
+                height: 300px;
+                background: var(--wa-green);
+                opacity: 0.15;
+                border-radius: 50%;
+                filter: blur(120px);
+                z-index: 2;
+                pointer-events: none;
+            }
+
+            /* --- CONTAINER DO BOTÃO --- */
+            .btn-anchor {
+                position: relative;
+                z-index: 10;
+            }
+
+            /* Aura de brilho externa que pulsa suavemente */
+            .btn-glow-aura {
+                position: absolute;
+                top: -2rem; left: -2rem; right: -2rem; bottom: -2rem;
+                background: radial-gradient(circle, rgba(37, 211, 102, 0.12) 0%, rgba(37, 211, 102, 0) 70%);
+                filter: blur(40px);
+                opacity: 0.6;
+                transition: opacity 0.5s ease;
+                pointer-events: none;
+            }
+
+            .btn-anchor:hover .btn-glow-aura {
+                opacity: 1;
+                background: radial-gradient(circle, rgba(37, 211, 102, 0.25) 0%, rgba(37, 211, 102, 0) 70%);
+            }
+
+            /* --- O BOTÃO LED PRO --- */
+            .zap-btn {
+                font-family: 'Inter', sans-serif;
+                font-weight: 900;
+                padding: 1.4em 2.8em;
+                border: none;
+                border-radius: 16px;
+                position: relative;
+                cursor: pointer;
+                overflow: hidden;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+                background-color: #052e16;
+                color: white;
+                width: 100%;
+                max-width: 360px;
+                height: 85px;
+                z-index: 10;
+                box-shadow: 
+                    12px 20px 40px -10px rgba(0, 0, 0, 0.8),
+                    0 0 25px rgba(37, 211, 102, 0.15),
+                    inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+                border: 1px solid rgba(37, 211, 102, 0.3);
+            }
+
+            /* Camada de vidro e realce diagonal */
+            .glass-finish {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    135deg, 
+                    rgba(255, 255, 255, 0.18) 0%, 
+                    rgba(255, 255, 255, 0.04) 40%,
+                    rgba(37, 211, 102, 0) 100%
+                );
+                pointer-events: none;
+                z-index: 5;
+            }
+
+            /* Conteúdo do Botão */
+            .btn-label {
+                position: relative;
+                z-index: 15;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                text-shadow: 0 0 15px rgba(37, 211, 102, 0.8);
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                font-size: 1.1rem;
+            }
+
+            /* --- ANIMAÇÃO LED RIPPLE (LOOP) --- */
+            .energy-wave {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                height: 50px;
+                width: 50px;
+                background-color: var(--wa-green);
+                border-radius: 50%;
+                filter: blur(25px);
+                opacity: 0;
+                pointer-events: none;
+                z-index: 2;
+                animation: energyFlow 4s infinite ease-in-out;
+            }
+
+            .wave-1 { animation-delay: 0s; }
+            .wave-2 { animation-delay: 0.8s; }
+            .wave-3 { animation-delay: 1.6s; }
+            .wave-4 { animation-delay: 2.4s; }
+            .wave-5 { animation-delay: 3.2s; }
+
+            @keyframes energyFlow {
+                0% {
+                    transform: translate(-140%, -140%) scale(0);
+                    opacity: 0;
+                }
+                25% {
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: translate(60%, 60%) scale(10);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes sunPulse {
+                from { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
+                to { opacity: 0.25; transform: translate(-50%, -50%) scale(1.1); }
+            }
+
+            /* --- INTERAÇÕES --- */
+            .zap-btn:hover {
+                transform: translateY(-8px) translateX(3px) scale(1.04);
+                box-shadow: 
+                    20px 35px 60px -15px rgba(0, 0, 0, 0.9),
+                    0 0 50px rgba(37, 211, 102, 0.5),
+                    inset 2px 2px 4px rgba(255, 255, 255, 0.5);
+                background-color: #064e3b;
+            }
+
+            .zap-btn:hover .btn-label {
+                text-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+                letter-spacing: 3px;
+            }
+
+            .zap-btn:active {
+                transform: translateY(2px) scale(0.96);
+                transition: all 0.1s;
+            }
+
+            .wa-svg {
+                width: 28px;
+                height: 28px;
+                filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
+            }
+
+            /* Fix mobile override */
+            @media (max-width: 640px) {
+                .zap-btn {
+                    max-width: 320px;
+                    padding: 1.2em 2em;
+                    height: 75px;
+                }
+                .btn-label {
+                    font-size: 1rem;
+                }
+            }
+        </style>
+
+        <!-- Camadas de Luz Solar e Bloom -->
+        <div class="solar-flare"></div>
+        <div class="bloom-light"></div>
+
+        <!-- Área de Interação Principal -->
+        <div class="btn-anchor">
+            <!-- Aura de brilho externa -->
+            <div class="btn-glow-aura"></div>
+            
+            <button class="zap-btn" onclick="window.open('https://wa.me/5531988004874', '_blank')">
+                <!-- Camada Gloss -->
+                <div class="glass-finish"></div>
+                
+                <!-- Ondas de energia interna -->
+                <div class="energy-wave wave-1"></div>
+                <div class="energy-wave wave-2"></div>
+                <div class="energy-wave wave-3"></div>
+                <div class="energy-wave wave-4"></div>
+                <div class="energy-wave wave-5"></div>
+                
+                <!-- Conteúdo -->
+                <div class="btn-label">
+                    <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#FFF" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.411.001 12.045a11.811 11.811 0 001.592 5.925L0 24l6.135-1.61a11.771 11.771 0 005.911 1.586h.005c6.637 0 12.048-5.412 12.052-12.047a11.816 11.816 0 00-3.376-8.427h-.001z"/>
+                    </svg>
+                    <span>Conectar Agora</span>
+                </div>
+            </button>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="max-w-4xl w-full mx-auto flex flex-col h-[70vh] md:h-[80vh] max-h-[800px]">
+            <div class="text-center mb-4 md:mb-8 flex-shrink-0">
+                <h2 class="text-2xl md:text-5xl font-bold mb-2 md:mb-3 tracking-tight text-glow uppercase">
+                    Dúvidas Frequentes
+                </h2>
+                <p class="hidden sm:block text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
+                    Tudo o que você precisa saber antes de dar o próximo passo rumo ao futuro do seu negócio.
+                </p>
+            </div>
+
+            <div
+                class="flex-1 bg-panelBg border border-borderGrid rounded-2xl shadow-2xl overflow-hidden flex flex-col relative z-10 backdrop-blur-sm min-h-0">
+                <div
+                    class="h-10 md:h-12 border-b border-borderGrid bg-black/40 flex items-center px-4 gap-2 flex-shrink-0">
+                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500/80"></div>
+                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500/80"></div>
+                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500/80"></div>
+                    <span class="ml-2 md:ml-4 text-[10px] md:text-xs text-gray-500 font-mono">FAQ_Terminal_v2.0</span>
+                </div>
+
+                <div id="chat-box" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6 chat-container">
+                    <div class="flex items-start gap-3 md:gap-4 message-enter">
+                        <div
+                            class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                            <svg class="w-4 h-4 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div
+                            class="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none p-3 md:p-4 text-gray-300 max-w-[90%] md:max-w-[85%] text-sm md:text-base leading-relaxed">
+                            Olá! Sou o assistente interativo do seu projeto. Selecione uma das perguntas abaixo para
+                            iniciarmos a preparação para o futuro do seu negócio.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 md:p-4 bg-black/60 border-t border-borderGrid flex flex-col flex-shrink-0">
+                    <p
+                        class="text-[10px] md:text-xs text-brandPrimary mb-2 md:mb-3 font-mono uppercase tracking-widest flex-shrink-0">
+                        Selecione uma query:</p>
+                    <div class="flex flex-wrap gap-2 overflow-y-auto chat-container max-h-[35vh] pb-1 pr-2"
+                        id="question-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+    <!-- Seção do Teclado Social -->
+    <section
+        class="min-h-[90vh] flex flex-col items-center justify-center relative py-32 px-4 overflow-hidden bg-slate-950/20">
+        <!-- Título -->
+        <div class="z-10 mb-20 text-center">
+            <h2
+                class="text-3xl md:text-5xl font-extrabold text-white tracking-tight"
+                style="text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3);">
+                Minhas Redes Sociais
+            </h2>
+            <p class="text-slate-200 mt-4 text-sm md:text-base font-medium" 
+               style="text-shadow: 0 0 8px rgba(255,255,255,0.5);">Aperte ou passe o mouse nas teclas para
+                acessar</p>
+        </div>
+
+        <div class="isometric-board relative select-none preserve-3d" id="keyboard-container">
+            <!-- Sombra base do teclado inteiro -->
+            <div class="absolute top-0 left-0 w-full h-full bg-black/40 blur-2xl rounded-3xl pointer-events-none"
+                style="transform: translateZ(-20px) translateY(-1rem);"></div>
+        </div>
+    </section>
+
     <footer class="footer-action">
         <div class="ripple-wrapper">
-          <div class="ripple-aura"></div>
-          <a href="index.html" class="premium-btn">
-            <div class="scanner-line"></div>
-            <div class="btn-corner corner-tl"></div>
-            <div class="btn-corner corner-tr"></div>
-            <div class="btn-corner corner-bl"></div>
-            <div class="btn-corner corner-br"></div>
-            <span class="btn-text">voltar ao início</span>
-          </a>
+            <div class="ripple-aura"></div>
+            <a href="index.html" class="premium-btn">
+                <div class="scanner-line"></div>
+                <div class="btn-corner corner-tl"></div>
+                <div class="btn-corner corner-tr"></div>
+                <div class="btn-corner corner-bl"></div>
+                <div class="btn-corner corner-br"></div>
+                <span class="btn-text">voltar ao início</span>
+            </a>
         </div>
     </footer>
 
@@ -448,7 +1193,186 @@
             const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
             parallaxBg.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
-    </script>
 
+        // FAQ Interactive Logic
+        const faqData = [
+            { id: 1, question: "Quanto tempo demora para o meu site ficar pronto?", answer: "A maioria dos nossos viabilidade e desenvolvimento é entregue entre 1 a 4 semanas. Trabalhamos com processos estruturados para garantir resultados rápidos e sem perda de qualidade." },
+            { id: 2, question: "Como funciona a forma de pagamento?", answer: "Trabalhamos com 50% de entrada para iniciarmos e 50% apenas na aprovação e entrega final. Isso traz segurança e comprometimento para ambos os lados." },
+            { id: 3, question: "Preciso pagar mensalidade depois de pronto?", answer: "Não! O sistema/site será 100% seu. Você apenas terá os custos anuais básicos do servidor e domínio, a não ser que escolha assinar nosso plano VIP de manutenção contínua." },
+            { id: 4, question: "Vocês oferecem suporte após a entrega?", answer: "Com certeza! Nossos projetos contam com até 30 dias de suporte técnico intensivo após a entrega, onde ajeitamos qualquer tipo de ajuste para ficar exatamente como esperado." },
+            { id: 5, question: "Eu conseguirei alterar detalhes depois?", answer: "Sim! Construímos um painel focado em tornar a sua vida fácil: você poderá atualizar textos, trocar imagens ou mexer em valores do catálogo sem mexer em nenhuma linha de código." }
+        ];
+
+        const chatBox = document.getElementById('chat-box');
+        const questionContainer = document.getElementById('question-container');
+
+        function createTypingIndicator() {
+            const div = document.createElement('div');
+            div.className = 'flex items-start gap-3 md:gap-4 message-enter typing-wrapper';
+            div.innerHTML = `
+                <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                    <svg class="w-4 h-4 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none p-3 md:p-4 flex items-center h-10 md:h-12">
+                    <div class="typing-indicator"><span></span><span></span><span></span></div>
+                </div>
+            `;
+            return div;
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `flex items-start gap-3 md:gap-4 message-enter w-full ${sender === 'user' ? 'flex-row-reverse' : ''}`;
+            if (sender === 'user') {
+                div.innerHTML = `
+                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-zinc-800 flex items-center justify-center flex-shrink-0 border border-zinc-700">
+                        <svg class="w-4 h-4 md:w-5 md:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    </div>
+                    <div class="bg-brandSecondary/20 border border-brandSecondary/30 rounded-2xl rounded-tr-none p-3 md:p-4 text-white max-w-[90%] md:max-w-[85%] text-sm md:text-base">${text}</div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                        <svg class="w-4 h-4 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none p-3 md:p-4 text-gray-300 max-w-[90%] md:max-w-[85%] text-sm md:text-base leading-relaxed">${text}</div>
+                `;
+            }
+            chatBox.appendChild(div);
+            chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
+        }
+
+        function handleQuestionClick(faq, buttonElement) {
+            if (buttonElement.classList.contains('used')) return;
+            buttonElement.classList.add('used');
+            addMessage(faq.question, 'user');
+            const typingInd = createTypingIndicator();
+            chatBox.appendChild(typingInd);
+            chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
+            setTimeout(() => {
+                typingInd.remove();
+                addMessage(faq.answer, 'system');
+            }, 1200);
+        }
+
+        faqData.forEach(faq => {
+            const btn = document.createElement('button');
+            btn.className = 'question-chip text-left bg-transparent border border-white/20 hover:border-brandPrimary hover:text-brandPrimary text-gray-200 px-4 py-2 rounded-xl text-sm md:text-base font-medium focus:outline-none';
+            btn.innerText = faq.question;
+            btn.addEventListener('click', () => handleQuestionClick(faq, btn));
+            questionContainer.appendChild(btn);
+        });
+
+        // --- Dados das Redes Sociais ---
+        const socialData = {
+            'github': {
+                name: 'GitHub',
+                color: '#181717',
+                shadow: '#0D0D0D',
+                textColor: '#FFFFFF',
+                level: 'github.com/bielllg',
+                url: 'https://github.com/bielllg',
+                desc: 'Repositórios e Código',
+                icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>'
+            },
+            'portfolio': {
+                name: 'Portfólio',
+                color: '#8B5CF6',
+                shadow: '#5B21B6',
+                textColor: '#FFFFFF',
+                level: 'meusite.com',
+                url: '#',
+                desc: 'Meus Projetos',
+                icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>'
+            },
+            'linkedin': {
+                name: 'LinkedIn',
+                color: '#0A66C2',
+                shadow: '#04417E',
+                textColor: '#FFFFFF',
+                level: 'linkedin.com/in/gabriel-reis-a09373358/',
+                url: 'https://linkedin.com/in/gabriel-reis-a09373358/',
+                desc: 'Networking',
+                icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+            },
+            'whatsapp': {
+                name: 'WhatsApp',
+                color: '#25D366',
+                shadow: '#128C7E',
+                textColor: '#FFFFFF',
+                level: 'wa.me/5531988004874',
+                url: 'https://wa.me/5531988004874',
+                desc: 'Mensagens Diretas',
+                icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>'
+            },
+            'gmail': {
+                name: 'Gmail',
+                color: '#EA4335',
+                shadow: '#B31404',
+                textColor: '#FFFFFF',
+                level: 'ola@email.com',
+                url: 'mailto:ola@email.com',
+                desc: 'Contato Profissional',
+                icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>'
+            }
+        };
+
+        const keyboardLayout = [
+            ['github', 'portfolio', 'linkedin'],
+            ['whatsapp', 'gmail']
+        ];
+
+        const keyboardContainer = document.getElementById('keyboard-container');
+        const rowsWrapper = document.createElement('div');
+        rowsWrapper.className = 'flex flex-col gap-8 sm:gap-12 preserve-3d';
+
+        keyboardLayout.forEach((row, rowIndex) => {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'flex gap-8 sm:gap-12 preserve-3d';
+            rowDiv.style.marginLeft = `${rowIndex * 3.5}rem`;
+
+            row.forEach(id => {
+                const skill = socialData[id];
+                if (skill) {
+                    const keyHtml = `
+                        <div class="relative group cursor-pointer preserve-3d w-20 h-20 sm:w-28 sm:h-28" 
+                             onclick="window.open('${skill.url}', '_blank')"
+                             style="--base-color: ${skill.color}; --shadow-color: ${skill.shadow};">
+                            
+                            <div class="keycap-element w-full h-full rounded-xl flex items-center justify-center" 
+                                 style="background-color: ${skill.color}; color: ${skill.textColor};">
+                                <div class="keycap-icon w-10 h-10 sm:w-14 sm:h-14">
+                                    ${skill.icon}
+                                </div>
+                            </div>
+
+                            <div class="hologram-popup absolute pointer-events-none z-50 flex items-end justify-center"
+                                 style="bottom: 100%; left: 50%; transform: translateX(-50%) rotateZ(35deg) rotateX(-55deg); transform-origin: bottom center;">
+                                <div class="bg-slate-900/80 backdrop-blur-xl border border-purple-400/40 rounded-xl p-4 shadow-[0_0_40px_rgba(147,51,234,0.5),inset_0_0_20px_rgba(168,85,247,0.2)] w-48 flex flex-col items-center mb-4 relative"
+                                     style="box-shadow: 0 0 30px ${skill.shadow}, inset 0 0 20px rgba(255,255,255,0.1); border-color: ${skill.color}50;">
+                                    <div class="w-10 h-10 sm:w-12 sm:h-12 mb-2 p-2 bg-gradient-to-br from-white/10 to-transparent rounded-lg border border-purple-400/30 shadow-[0_0_15px_rgba(168,85,247,0.3)]" style="color: ${skill.color};">
+                                        ${skill.icon}
+                                    </div>
+                                    <h3 class="text-white font-bold text-lg uppercase tracking-wide mb-1 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]">${skill.name}</h3>
+                                    <p class="text-purple-300 text-xs font-semibold mb-2 drop-shadow-[0_0_5px_rgba(168,85,247,0.9)]">${skill.level}</p>
+                                    <p class="text-slate-300 text-xs text-center border-t border-white/10 pt-2 w-full mt-2">${skill.desc}</p>
+                                    
+                                    <!-- Feixe de luz ligando a tecla ao cartão (orientado na base do cartão) -->
+                                    <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 w-8 h-12 blur-md pointer-events-none" 
+                                         style="background: linear-gradient(to top, transparent, ${skill.color}60);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    rowDiv.insertAdjacentHTML('beforeend', keyHtml);
+                }
+            });
+            rowsWrapper.appendChild(rowDiv);
+        });
+
+        keyboardContainer.insertBefore(rowsWrapper, keyboardContainer.firstChild);
+
+    </script>
 </body>
+
 </html>

@@ -29,6 +29,57 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet" />
   <style>
+    /* Site Branding Styles (Plain CSS to bypass CSP/Tailwind issues) */
+    .site-branding {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .site-branding-text {
+      color: white;
+      font-weight: 800;
+      font-size: 10px;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      mix-blend-mode: difference;
+    }
+
+    .site-branding-logo {
+      width: 40px;
+      height: auto;
+      opacity: 0.3;
+      pointer-events: auto;
+      transition: all 0.3s ease;
+    }
+
+    .site-branding-logo:hover {
+      opacity: 0.7;
+      transform: scale(1.1);
+    }
+
+    @media (min-width: 768px) {
+      .site-branding {
+        padding: 2.5rem;
+      }
+
+      .site-branding-logo {
+        width: 60px;
+      }
+
+      .site-branding-text {
+        font-size: 12px;
+      }
+    }
+
     *,
     *::before,
     *::after {
@@ -725,6 +776,14 @@
 </head>
 
 <body>
+
+  <!-- Top Navigation Branding -->
+  <div class="site-branding">
+    <div class="site-branding-text">
+      gabriel web
+    </div>
+    <img src="img/5ace780f-e5ce-458f-b867-2a8b4600c760-removebg-preview.png" alt="Logo" class="site-branding-logo">
+  </div>
 
   <!-- Scroll Wrapper: 300vh de espaço para o scroll animar o efeito -->
   <div class="scroll-wrapper" id="scrollWrapper">
