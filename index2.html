@@ -15,32 +15,38 @@
         :root {
             --purple-neon: #A855F7;
             --blue-neon: #4f46e5;
-            --card-width: 18em;
+            /* Adaptive Card Width */
+            --card-width: clamp(12em, 50vw, 18em);
             --n: 12;
-            --radius: calc((var(--card-width) * 0.5 + 1em) / 0.2679);
-            --duration: 45s;
+            /* radius = (width / 2) / tan(π / n) */
+            /* For n=12, tan(15deg) is ~0.2679 */
+            --radius: calc((var(--card-width) * 0.5 + 1.5em) / 0.2679);
+            --duration: 50s;
+            --bg-dark: #030006;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #030006;
+            background-color: var(--bg-dark);
             color: #ffffff;
             font-family: 'Outfit', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 4rem 1rem;
+            justify-content: center;
             overflow-x: hidden;
             position: relative;
+            padding: 2rem 0;
         }
 
-        /* == DYNAMIC BACKGROUND == */
+        /* == BACKGROUND LAYERS == */
         .bg-scene {
             position: fixed;
             top: 0;
@@ -49,65 +55,70 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
+            overflow: hidden;
         }
 
         .orb {
             position: absolute;
             border-radius: 50%;
             filter: blur(120px);
-            opacity: 0.35;
-            animation: orb-float 30s infinite alternate ease-in-out;
+            opacity: 0.25;
+            animation: orb-float 25s infinite alternate ease-in-out;
+            will-change: transform;
         }
 
-        .orb-1 { width: 600px; height: 600px; background: var(--purple-neon); top: -200px; left: -100px; }
-        .orb-2 { width: 500px; height: 500px; background: var(--blue-neon); bottom: -150px; right: -100px; animation-delay: -7s; }
-        .orb-3 { width: 400px; height: 400px; background: #9333ea; top: 40%; left: 55%; animation-delay: -15s; }
+        .orb-1 { width: 60vw; height: 60vw; background: var(--purple-neon); top: -20%; left: -10%; }
+        .orb-2 { width: 50vw; height: 50vw; background: var(--blue-neon); bottom: -10%; right: -10%; animation-delay: -5s; }
+        .orb-3 { width: 40vw; height: 40vw; background: #6b21a8; top: 30%; left: 40%; animation-delay: -10s; }
 
         @keyframes orb-float {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(120px, 60px) scale(1.4); }
+            100% { transform: translate(10%, 10%) scale(1.2); }
         }
 
         /* == HEADER == */
         .section-header {
             text-align: center;
-            margin-bottom: 6rem;
-            z-index: 10;
+            margin-bottom: clamp(2rem, 8vh, 6rem);
+            z-index: 20;
+            padding: 0 1.5rem;
         }
 
         .section-subtitle {
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.7rem;
+            font-weight: 700;
             letter-spacing: 0.6em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .section-title {
-            font-size: clamp(2.2rem, 6vw, 4rem);
+            font-size: clamp(1.8rem, 8vw, 3.5rem);
             font-weight: 800;
             line-height: 1.1;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.04em;
         }
 
-        .section-title .glow-text {
-            background: linear-gradient(135deg, var(--purple-neon), #D8B4FE);
+        .glow-text {
+            background: linear-gradient(135deg, #fff, var(--purple-neon));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-weight: 900;
         }
 
-        /* == LIGHTSWIND 3D SLIDER == */
+        /* == 3D SLIDER ENGINE == */
         .slider-viewport {
             width: 100%;
-            height: 600px;
+            height: clamp(400px, 60vh, 700px);
             display: grid;
             place-items: center;
-            perspective: 50em;
+            perspective: 1000px;
             position: relative;
             z-index: 5;
-            -webkit-mask: linear-gradient(90deg, transparent, #000 15% 85%, transparent);
-            mask: linear-gradient(90deg, transparent, #000 15% 85%, transparent);
+            /* Prevents card overlap visual issues at the edges */
+            -webkit-mask: linear-gradient(90deg, transparent, #000 20% 80%, transparent);
+            mask: linear-gradient(90deg, transparent, #000 20% 80%, transparent);
         }
 
         .slider-ring {
@@ -115,6 +126,8 @@
             place-self: center;
             transform-style: preserve-3d;
             animation: rotate-3d var(--duration) linear infinite;
+            will-change: transform;
+            pointer-events: none; /* Cards will re-enable it */
         }
 
         @keyframes rotate-3d {
@@ -122,134 +135,184 @@
             to { transform: rotateY(-360deg); }
         }
 
-        .slider-viewport:hover .slider-ring {
+        /* Interaction: Pause on hover/touch */
+        .slider-viewport:hover .slider-ring,
+        .slider-viewport:active .slider-ring {
             animation-play-state: paused;
         }
 
-        /* == CARD ANATOMY == */
+        /* == CARD ELEMENT == */
         .card {
             grid-column: 1;
             grid-row: 1;
             width: var(--card-width);
-            aspect-ratio: 7/10;
+            aspect-ratio: 10/14;
             position: relative;
+            pointer-events: auto; /* Enable hover */
             
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
             
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 2rem;
-            overflow: hidden;
             
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2.5rem;
+            padding: 2rem;
+            text-align: center;
             
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), 
+                        border-color 0.4s ease, 
+                        background 0.4s ease;
             
-            cursor: pointer;
-            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
+            user-select: none;
+            will-change: transform;
         }
 
-        /* Distribution Logic */
-        .card:nth-child(1) { transform: rotateY(0deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(2) { transform: rotateY(30deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(3) { transform: rotateY(60deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(4) { transform: rotateY(90deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(5) { transform: rotateY(120deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(6) { transform: rotateY(150deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(7) { transform: rotateY(180deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(8) { transform: rotateY(210deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(9) { transform: rotateY(240deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(10) { transform: rotateY(270deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(11) { transform: rotateY(300deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
-        .card:nth-child(12) { transform: rotateY(330deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
+        /* Card Self-Positioning Formula */
+        /* Each card gets: 
+           1. Rotation around circle center (i * 30deg)
+           2. Translation to the radius distance
+           3. Initial tilt (20deg) 
+        */
 
+        .card:nth-child(1)  { --angle: 0deg;   }
+        .card:nth-child(2)  { --angle: 30deg;  }
+        .card:nth-child(3)  { --angle: 60deg;  }
+        .card:nth-child(4)  { --angle: 90deg;  }
+        .card:nth-child(5)  { --angle: 120deg; }
+        .card:nth-child(6)  { --angle: 150deg; }
+        .card:nth-child(7)  { --angle: 180deg; }
+        .card:nth-child(8)  { --angle: 210deg; }
+        .card:nth-child(9)  { --angle: 240deg; }
+        .card:nth-child(10) { --angle: 270deg; }
+        .card:nth-child(11) { --angle: 300deg; }
+        .card:nth-child(12) { --angle: 330deg; }
+
+        .card {
+            transform: rotateY(var(--angle)) translateZ(calc(-1 * var(--radius))) rotateY(20deg);
+        }
+
+        /* == HOVER STATE REFACTORED == */
+        /* Eliminating redundant nth-child logic by using the --angle variable */
         .card:hover {
+            transform: rotateY(var(--angle)) translateZ(calc(-1 * var(--radius) + 100px)) scale(1.1) rotateY(0deg);
             background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(168, 85, 247, 0.5);
-            box-shadow: 0 0 50px rgba(168, 85, 247, 0.2), 0 50px 100px rgba(0, 0, 0, 0.8);
-            filter: brightness(1.2);
-            z-index: 100;
+            border-color: var(--purple-neon);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(168, 85, 247, 0.2);
+            z-index: 50;
         }
-
-        /* Focus Hover */
-        .card:hover { transform: var(--hover-transform); }
-        .card:nth-child(1):hover { transform: rotateY(0deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(2):hover { transform: rotateY(30deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(3):hover { transform: rotateY(60deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(4):hover { transform: rotateY(90deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(5):hover { transform: rotateY(120deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(6):hover { transform: rotateY(150deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(7):hover { transform: rotateY(180deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(8):hover { transform: rotateY(210deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(9):hover { transform: rotateY(240deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(10):hover { transform: rotateY(270deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(11):hover { transform: rotateY(300deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
-        .card:nth-child(12):hover { transform: rotateY(330deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
 
         /* == CARD CONTENT == */
         .card-icon-main {
-            width: 100px; height: 100px;
-            stroke: #d8b4fe; stroke-width: 1.2; fill: none;
-            margin-bottom: 2.5rem;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: drop-shadow(0 0 15px var(--purple-neon));
+            width: 80px; 
+            height: 80px;
+            stroke: #d8b4fe; 
+            stroke-width: 1.5; 
+            fill: none;
+            margin-bottom: 2rem;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
         }
 
         .card:hover .card-icon-main {
-            transform: scale(1.25) rotate(15deg);
+            transform: scale(1.2) rotate(12deg);
             stroke: #fff;
+            filter: drop-shadow(0 0 20px var(--purple-neon));
         }
 
         .card-title {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 800;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.6rem;
             color: #fff;
+            letter-spacing: -0.02em;
         }
 
         .card-text {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.5);
-            line-height: 1.5;
-            font-weight: 300;
+            line-height: 1.4;
+            max-width: 90%;
         }
 
-        /* Small reflection light inside card */
-        .card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+        /* Subtle light streak */
+        .card::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-20deg); transition: left 0.6s ease;
+        }
+        .card:hover::after { left: 150%; }
+
+        /* == FOOTER & CTA == */
+        .footer-action {
+            margin-top: clamp(2rem, 5vh, 4rem);
+            z-index: 50;
+        }
+
+        .premium-btn {
+            padding: 1.2rem 3.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            color: white;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: lowercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .premium-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--purple-neon);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .premium-btn:active { transform: scale(0.96); }
+
+        .btn-scanner {
+            position: absolute; top: 0; left: -100%; width: 40%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            animation: scan-loop 3s infinite linear;
+        }
+        @keyframes scan-loop { to { left: 150%; } }
+
+        /* RIPPLE CLASS */
+        .ripple {
+            position: absolute; background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%; transform: scale(0); animation: ripple-out 0.6s linear;
             pointer-events: none;
         }
+        @keyframes ripple-out { to { scale: 4; opacity: 0; } }
 
-        /* == FOOTER ACTION == */
-        .footer-action { margin-top: 4rem; z-index: 100; }
-        .premium-btn {
-            padding: 1.4rem 5rem; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; color: white;
-            font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.3rem;
-            text-transform: lowercase; letter-spacing: 2px; cursor: pointer;
-            position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
-            transition: all 0.4s ease; text-decoration: none;
+        /* == MOBILE OVERRIDES == */
+        @media (max-width: 600px) {
+            :root {
+                --duration: 35s; 
+            }
+            .slider-viewport { 
+                perspective: 800px;
+                height: 500px;
+            }
+            .card { padding: 1.5rem; }
+            .card-icon-main { width: 60px; height: 60px; }
         }
-        .premium-btn:hover {
-            border-color: var(--purple-neon); box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
-            transform: translateY(-8px);
-        }
-        .premium-btn:active { transform: scale(0.95); }
-        
-        .scanner {
-            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            animation: scan-move 4s infinite linear;
-        }
-        @keyframes scan-move { from { left: -100%; } to { left: 150%; } }
 
     </style>
 </head>
@@ -263,106 +326,117 @@
     </div>
 
     <header class="section-header">
-        <div class="section-subtitle">Nossos Serviços</div>
-        <h1 class="section-title">Infraestrutura <span class="glow-text">Digital</span></h1>
+        <div class="section-subtitle">Premium Tech Suite</div>
+        <h1 class="section-title">Nossas <span class="glow-text">Soluções</span></h1>
     </header>
 
-    <main class="slider-viewport">
+    <main class="slider-viewport" id="sliderViewport">
         <div class="slider-ring">
             
-            <!-- Site -->
+            <!-- Items 1 to 12 -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"></path></svg>
                 <h3 class="card-title">Sites & LP</h3>
-                <p class="card-text">Alta performance e conversão.</p>
+                <p class="card-text">Interfaces que convertem visitantes em clientes de elite.</p>
             </div>
 
-            <!-- Automação -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M13 3l-2 3H8l-1 5h2l-2 7 10-10h-3l4-5h-5z"></path></svg>
                 <h3 class="card-title">Automação</h3>
-                <p class="card-text">Fluxos que trabalham sozinhos.</p>
+                <p class="card-text">Otimização total de processos com workflows inteligentes.</p>
             </div>
 
-            <!-- Design -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M7 17l10-10M16 4l4 4M4 16l4 4"></path><circle cx="6" cy="18" r="1.5" fill="currentColor"></circle></svg>
-                <h3 class="card-title">UI/UX Design</h3>
-                <p class="card-text">Interfaces de alto impacto em valor.</p>
+                <h3 class="card-title">UI Design</h3>
+                <p class="card-text">Design focado na experiência e percepção de valor.</p>
             </div>
 
-            <!-- Segurança -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M12 3l8 4.5v5.5c0 4.5-3.5 8-8 11-4.5-3-8-6.5-8-11v-5.5zM9 12l2 2l4-4"></path></svg>
                 <h3 class="card-title">Segurança</h3>
-                <p class="card-text">Blindagem total de dados.</p>
+                <p class="card-text">Blindagem cibernética avançada para seus dados.</p>
             </div>
 
-            <!-- Arquitetura -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg>
                 <h3 class="card-title">Arquitetura</h3>
-                <p class="card-text">Escalabilidade para milhões.</p>
+                <p class="card-text">Sistemas prontos para escala global e alta carga.</p>
             </div>
 
-            <!-- Consultoria -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M3 3v18h18M18 7l-5 5-3-3-4 4"></path></svg>
                 <h3 class="card-title">Consultoria</h3>
-                <p class="card-text">Estratégias de dominação digital.</p>
+                <p class="card-text">Direcionamento estratégico para novos mercados.</p>
             </div>
 
-            <!-- Inovação -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2v1M5.6 5.6l.7.7M18.4 5.6l-.7.7M2 12h1M21 12h1M12 6c-3.3 0-6 2.7-6 6 0 2.5 1.4 4.5 3.5 5.5l.5.5h4l.5-.5c2.1-1 3.5-3 3.5-5.5 0-3.3-2.7-6-6-6z"></path></svg>
                 <h3 class="card-title">Inovação</h3>
-                <p class="card-text">Antecipando tendências globais.</p>
+                <p class="card-text">Desenvolvimento de produtos disruptivos.</p>
             </div>
 
-            <!-- IA -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9h6v6H9zM12 2v2M12 20v2M2 12h2M20 12h2M15 2v2M15 20v2M9 2v2M9 20v2"></path></svg>
                 <h3 class="card-title">IA Aplicada</h3>
-                <p class="card-text">Inteligência integrada ao fluxo.</p>
+                <p class="card-text">Inteligência cognitiva integrada ao seu app.</p>
             </div>
 
-            <!-- Cloud -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M17.5 19c2.5 0 4.5-2 4.5-4.5S20 10 17.5 10c-.2 0-.5 0-.7.1C16 7.4 13.5 6 11 6 7.7 6 5 8.7 5 12c0 .2 0 .3 0 .5C3.3 13.2 2 15 2 17c0 2.2 1.8 4 4 4h11.5"></path></svg>
                 <h3 class="card-title">Cloud Labs</h3>
-                <p class="card-text">Infraestrutura em nuvem resiliente.</p>
+                <p class="card-text">Infraestrutura gerenciada com 99.9% de uptime.</p>
             </div>
 
-            <!-- Data -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3"></path><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path></svg>
-                <h3 class="card-title">Data Science</h3>
-                <p class="card-text">Decisões baseadas em dados reais.</p>
+                <h3 class="card-title">Data Mining</h3>
+                <p class="card-text">Insights preditivos para decisões ágeis.</p>
             </div>
 
-            <!-- Scale -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
                 <h3 class="card-title">Scale Up</h3>
-                <p class="card-text">Crescimento exponencial guiado.</p>
+                <p class="card-text">Growth hacking focado no core business.</p>
             </div>
 
-            <!-- Ecosystem -->
             <div class="card">
                 <svg class="card-icon-main" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="19" r="2"></circle><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><path d="M12 7v2M12 15v2M7 12h2M15 12h2"></path></svg>
-                <h3 class="card-title">Ecossistema</h3>
-                <p class="card-text">Integração total do seu fluxo.</p>
+                <h3 class="card-title">API Nodes</h3>
+                <p class="card-text">Interconexão fluida entre sistemas heterogêneos.</p>
             </div>
 
         </div>
     </main>
 
     <footer class="footer-action">
-        <a href="index.html" class="premium-btn">
-            <div class="scanner"></div>
+        <a href="index.html" class="premium-btn" id="ctaBtn">
+            <div class="btn-scanner"></div>
             voltar ao início
         </a>
     </footer>
 
+    <script>
+        const ctaBtn = document.getElementById('ctaBtn');
+
+        ctaBtn.addEventListener('mousedown', function(e) {
+            const x = e.clientX - e.currentTarget.getBoundingClientRect().left;
+            const y = e.clientY - e.currentTarget.getBoundingClientRect().top;
+            
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => { ripple.remove(); }, 600);
+        });
+
+        // Prevention of accidental drag on cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('dragstart', e => e.preventDefault());
+        });
+    </script>
 </body>
 </html>
