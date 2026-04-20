@@ -120,10 +120,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Changed to flex-start to prevent top crowding */
-            padding-top: 6rem; /* Ensures the first item isn't glued to the top */
-            padding-bottom: 6rem; /* Ensures bottom isn't glued to the edge */
-            gap: 4rem; /* Espaçamento pequeno entre as seções */
+            justify-content: flex-start;
+            /* Changed to flex-start to prevent top crowding */
+            padding-top: 6rem;
+            /* Ensures the first item isn't glued to the top */
+            padding-bottom: 6rem;
+            /* Ensures bottom isn't glued to the edge */
+            gap: 4rem;
+            /* Espaçamento pequeno entre as seções */
             overflow-x: hidden;
             max-width: 100vw;
             position: relative;
@@ -198,7 +202,7 @@
         /* == 3D SLIDER ENGINE == */
         .slider-viewport {
             width: 100%;
-            height: clamp(450px, 65vh, 750px);
+            height: clamp(380px, 55vh, 600px);
             display: grid;
             place-items: center;
             perspective: 1200px;
@@ -244,6 +248,8 @@
             background: linear-gradient(135deg, var(--glass-light), var(--glass-deep));
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
+            transform: translateZ(0);
+            will-change: transform, backdrop-filter;
 
             /* Thick real highlighting borders */
             border-top: 2px solid var(--border-highlight);
@@ -399,6 +405,8 @@
             inset: -2rem;
             background: rgba(255, 255, 255, 0.05);
             filter: blur(50px);
+            transform: translateZ(0);
+            will-change: opacity;
             opacity: 0;
             transition: opacity 0.7s ease;
             pointer-events: none;
@@ -425,6 +433,8 @@
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            transform: translateZ(0);
+            will-change: transform, box-shadow;
             color: white;
             text-decoration: none;
             min-width: 320px;
@@ -739,138 +749,146 @@
         <div class="site-branding-text">
             gabriel web
         </div>
-        <img src="img/5ace780f-e5ce-458f-b867-2a8b4600c760-removebg-preview.png" alt="Logo" class="site-branding-logo">
+        <img src="img/5ace780f-e5ce-458f-b867-2a8b4600c760-removebg-preview.png" alt="Logo" class="site-branding-logo"
+            fetchpriority="high" decoding="async">
     </div>
 
     <!-- 1. Video Parallax Background (Sync with index.html) -->
     <div class="parallax-bg" id="parallaxBg">
-        <img src="img/abstract low poly plexus design in black and white 0609.jpg" alt="Glass Gradient Background">
+        <img src="img/abstract low poly plexus design in black and white 0609.jpg" alt="Glass Gradient Background"
+            loading="lazy" decoding="async">
     </div>
 
-    <header class="section-header">
-        <div class="section-subtitle">Nossos Serviços</div>
-        <h1 class="section-title">Criamos o futuro digital do seu <br> negócio</h1>
-    </header>
+    <!-- Container para scroll sticky -->
+    <div style="height: 130vh; position: relative; z-index: 10;">
+        <div
+            style="position: sticky; top: 0; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; width: 100%;">
+            <header class="section-header" style="margin-top: -2rem;">
+                <div class="section-subtitle">Nossos Serviços</div>
+                <h1 class="section-title">Criamos o futuro digital do seu <br> negócio</h1>
+            </header>
 
-    <main class="slider-viewport">
-        <div class="slider-ring">
+            <main class="slider-viewport">
+                <div class="slider-ring">
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="9"></circle>
-                    <path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"></path>
-                </svg>
-                <h3 class="card-title">Sites & LP</h3>
-                <p class="card-text">Interfaces de alta performance otimizadas para conversão.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"></path>
+                        </svg>
+                        <h3 class="card-title">Sites & LP</h3>
+                        <p class="card-text">Interfaces de alta performance otimizadas para conversão.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <path d="M13 3l-2 3H8l-1 5h2l-2 7 10-10h-3l4-5h-5z"></path>
-                </svg>
-                <h3 class="card-title">Automação</h3>
-                <p class="card-text">Workflows inteligentes que economizam horas de trabalho.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <path d="M13 3l-2 3H8l-1 5h2l-2 7 10-10h-3l4-5h-5z"></path>
+                        </svg>
+                        <h3 class="card-title">Automação</h3>
+                        <p class="card-text">Workflows inteligentes que economizam horas de trabalho.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <path d="M7 17l10-10M16 4l4 4M4 16l4 4"></path>
-                    <circle cx="6" cy="18" r="1.5" fill="currentColor"></circle>
-                </svg>
-                <h3 class="card-title">Design</h3>
-                <p class="card-text">Design focado na percepção de valor e experiência.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <path d="M7 17l10-10M16 4l4 4M4 16l4 4"></path>
+                            <circle cx="6" cy="18" r="1.5" fill="currentColor"></circle>
+                        </svg>
+                        <h3 class="card-title">Design</h3>
+                        <p class="card-text">Design focado na percepção de valor e experiência.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <path d="M12 3l8 4.5v5.5c0 4.5-3.5 8-8 11-4.5-3-8-6.5-8-11v-5.5zM9 12l2 2l4-4"></path>
-                </svg>
-                <h3 class="card-title">Segurança</h3>
-                <p class="card-text">Proteção avançada para infraestruturas sensíveis.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <path d="M12 3l8 4.5v5.5c0 4.5-3.5 8-8 11-4.5-3-8-6.5-8-11v-5.5zM9 12l2 2l4-4"></path>
+                        </svg>
+                        <h3 class="card-title">Segurança</h3>
+                        <p class="card-text">Proteção avançada para infraestruturas sensíveis.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                    <path d="M3 9h18M9 21V9"></path>
-                </svg>
-                <h3 class="card-title">Cerebral</h3>
-                <p class="card-text">Arquitetura de sistemas resilientes e escaláveis.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                            <path d="M3 9h18M9 21V9"></path>
+                        </svg>
+                        <h3 class="card-title">Cerebral</h3>
+                        <p class="card-text">Arquitetura de sistemas resilientes e escaláveis.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <path d="M3 3v18h18M18 7l-5 5-3-3-4 4"></path>
-                </svg>
-                <h3 class="card-title">Consultoria</h3>
-                <p class="card-text">Estratégia digital focada em dominação de nicho.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <path d="M3 3v18h18M18 7l-5 5-3-3-4 4"></path>
+                        </svg>
+                        <h3 class="card-title">Consultoria</h3>
+                        <p class="card-text">Estratégia digital focada em dominação de nicho.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <path
-                        d="M9 18h6M10 22h4M12 2v1M5.6 5.6l.7.7M18.4 5.6l-.7.7M2 12h1M21 12h1M12 6c-3.3 0-6 2.7-6 6 0 2.5 1.4 4.5 3.5 5.5l.5.5h4l.5-.5c2.1-1 3.5-3 3.5-5.5 0-3.3-2.7-6-6-6z">
-                    </path>
-                </svg>
-                <h3 class="card-title">Inovação</h3>
-                <p class="card-text">Exploração de fronteiras tecnológicas e IA.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <path
+                                d="M9 18h6M10 22h4M12 2v1M5.6 5.6l.7.7M18.4 5.6l-.7.7M2 12h1M21 12h1M12 6c-3.3 0-6 2.7-6 6 0 2.5 1.4 4.5 3.5 5.5l.5.5h4l.5-.5c2.1-1 3.5-3 3.5-5.5 0-3.3-2.7-6-6-6z">
+                            </path>
+                        </svg>
+                        <h3 class="card-title">Inovação</h3>
+                        <p class="card-text">Exploração de fronteiras tecnológicas e IA.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-                    <path d="M9 9h6v6H9zM12 2v2M12 20v2M2 12h2M20 12h2M15 2v2M15 20v2M9 2v2M9 20v2"></path>
-                </svg>
-                <h3 class="card-title">IA Aplicada</h3>
-                <p class="card-text">Modelos generativos integrados ao operacional.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                            <path d="M9 9h6v6H9zM12 2v2M12 20v2M2 12h2M20 12h2M15 2v2M15 20v2M9 2v2M9 20v2"></path>
+                        </svg>
+                        <h3 class="card-title">IA Aplicada</h3>
+                        <p class="card-text">Modelos generativos integrados ao operacional.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <path
-                        d="M17.5 19c2.5 0 4.5-2 4.5-4.5S20 10 17.5 10c-.2 0-.5 0-.7.1C16 7.4 13.5 6 11 6 7.7 6 5 8.7 5 12c0 .2 0 .3 0 .5C3.3 13.2 2 15 2 17c0 2.2 1.8 4 4 4h11.5">
-                    </path>
-                </svg>
-                <h3 class="card-title">Nuvem</h3>
-                <p class="card-text">Migração e gestão de infraestrutura Cloud Labs.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <path
+                                d="M17.5 19c2.5 0 4.5-2 4.5-4.5S20 10 17.5 10c-.2 0-.5 0-.7.1C16 7.4 13.5 6 11 6 7.7 6 5 8.7 5 12c0 .2 0 .3 0 .5C3.3 13.2 2 15 2 17c0 2.2 1.8 4 4 4h11.5">
+                            </path>
+                        </svg>
+                        <h3 class="card-title">Nuvem</h3>
+                        <p class="card-text">Migração e gestão de infraestrutura Cloud Labs.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-                    <path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3"></path>
-                    <path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path>
-                </svg>
-                <h3 class="card-title">Analytics</h3>
-                <p class="card-text">Visualização profunda e mineração de dados.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3"></path>
+                            <path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path>
+                        </svg>
+                        <h3 class="card-title">Analytics</h3>
+                        <p class="card-text">Visualização profunda e mineração de dados.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <path d="M12 19V5M5 12l7-7 7 7"></path>
-                </svg>
-                <h3 class="card-title">Escala</h3>
-                <p class="card-text">Growth hacking focado no core business digital.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <path d="M12 19V5M5 12l7-7 7 7"></path>
+                        </svg>
+                        <h3 class="card-title">Escala</h3>
+                        <p class="card-text">Growth hacking focado no core business digital.</p>
+                    </div>
 
-            <div class="card">
-                <svg class="card-icon-main" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <circle cx="12" cy="5" r="2"></circle>
-                    <circle cx="12" cy="19" r="2"></circle>
-                    <circle cx="5" cy="12" r="2"></circle>
-                    <circle cx="19" cy="12" r="2"></circle>
-                    <path d="M12 7v2M12 15v2M7 12h2M15 12h2"></path>
-                </svg>
-                <h3 class="card-title">Interconexão</h3>
-                <p class="card-text">Ecossistema total de APIs e integrações.</p>
-            </div>
+                    <div class="card">
+                        <svg class="card-icon-main" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <circle cx="12" cy="5" r="2"></circle>
+                            <circle cx="12" cy="19" r="2"></circle>
+                            <circle cx="5" cy="12" r="2"></circle>
+                            <circle cx="19" cy="12" r="2"></circle>
+                            <path d="M12 7v2M12 15v2M7 12h2M15 12h2"></path>
+                        </svg>
+                        <h3 class="card-title">Interconexão</h3>
+                        <p class="card-text">Ecossistema total de APIs e integrações.</p>
+                    </div>
 
+                </div>
+            </main>
         </div>
-    </main>
+    </div>
 
     <!-- Seção: Botão WhatsApp LED Pro -->
-    <section class="relative flex flex-col items-center justify-center py-32 overflow-hidden w-full">
+    <section class="relative flex flex-col items-center justify-center py-6 overflow-hidden w-full">
         <style>
             :root {
                 --wa-green: #25D366;
@@ -888,6 +906,8 @@
                 border-radius: 50%;
                 background: radial-gradient(circle, rgba(37, 211, 102, 0.15) 0%, rgba(37, 211, 102, 0.05) 45%, rgba(0, 0, 0, 0) 70%);
                 filter: blur(90px);
+                transform: translateZ(0);
+                will-change: transform, opacity;
                 z-index: 1;
                 pointer-events: none;
                 animation: sunPulse 8s infinite alternate ease-in-out;
@@ -904,6 +924,7 @@
                 opacity: 0.15;
                 border-radius: 50%;
                 filter: blur(120px);
+                transform: translateZ(0);
                 z-index: 2;
                 pointer-events: none;
             }
@@ -917,9 +938,14 @@
             /* Aura de brilho externa que pulsa suavemente */
             .btn-glow-aura {
                 position: absolute;
-                top: -2rem; left: -2rem; right: -2rem; bottom: -2rem;
+                top: -2rem;
+                left: -2rem;
+                right: -2rem;
+                bottom: -2rem;
                 background: radial-gradient(circle, rgba(37, 211, 102, 0.12) 0%, rgba(37, 211, 102, 0) 70%);
                 filter: blur(40px);
+                transform: translateZ(0);
+                will-change: opacity;
                 opacity: 0.6;
                 transition: opacity 0.5s ease;
                 pointer-events: none;
@@ -950,7 +976,7 @@
                 max-width: 360px;
                 height: 85px;
                 z-index: 10;
-                box-shadow: 
+                box-shadow:
                     12px 20px 40px -10px rgba(0, 0, 0, 0.8),
                     0 0 25px rgba(37, 211, 102, 0.15),
                     inset 1px 1px 2px rgba(255, 255, 255, 0.3);
@@ -964,12 +990,10 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(
-                    135deg, 
-                    rgba(255, 255, 255, 0.18) 0%, 
-                    rgba(255, 255, 255, 0.04) 40%,
-                    rgba(37, 211, 102, 0) 100%
-                );
+                background: linear-gradient(135deg,
+                        rgba(255, 255, 255, 0.18) 0%,
+                        rgba(255, 255, 255, 0.04) 40%,
+                        rgba(37, 211, 102, 0) 100%);
                 pointer-events: none;
                 z-index: 5;
             }
@@ -998,26 +1022,44 @@
                 background-color: var(--wa-green);
                 border-radius: 50%;
                 filter: blur(25px);
+                transform: translateZ(0);
+                will-change: transform, opacity;
                 opacity: 0;
                 pointer-events: none;
                 z-index: 2;
                 animation: energyFlow 4s infinite ease-in-out;
             }
 
-            .wave-1 { animation-delay: 0s; }
-            .wave-2 { animation-delay: 0.8s; }
-            .wave-3 { animation-delay: 1.6s; }
-            .wave-4 { animation-delay: 2.4s; }
-            .wave-5 { animation-delay: 3.2s; }
+            .wave-1 {
+                animation-delay: 0s;
+            }
+
+            .wave-2 {
+                animation-delay: 0.8s;
+            }
+
+            .wave-3 {
+                animation-delay: 1.6s;
+            }
+
+            .wave-4 {
+                animation-delay: 2.4s;
+            }
+
+            .wave-5 {
+                animation-delay: 3.2s;
+            }
 
             @keyframes energyFlow {
                 0% {
                     transform: translate(-140%, -140%) scale(0);
                     opacity: 0;
                 }
+
                 25% {
                     opacity: 0.8;
                 }
+
                 100% {
                     transform: translate(60%, 60%) scale(10);
                     opacity: 0;
@@ -1025,14 +1067,21 @@
             }
 
             @keyframes sunPulse {
-                from { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
-                to { opacity: 0.25; transform: translate(-50%, -50%) scale(1.1); }
+                from {
+                    opacity: 0.15;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+
+                to {
+                    opacity: 0.25;
+                    transform: translate(-50%, -50%) scale(1.1);
+                }
             }
 
             /* --- INTERAÇÕES --- */
             .zap-btn:hover {
                 transform: translateY(-8px) translateX(3px) scale(1.04);
-                box-shadow: 
+                box-shadow:
                     20px 35px 60px -15px rgba(0, 0, 0, 0.9),
                     0 0 50px rgba(37, 211, 102, 0.5),
                     inset 2px 2px 4px rgba(255, 255, 255, 0.5);
@@ -1052,7 +1101,7 @@
             .wa-svg {
                 width: 28px;
                 height: 28px;
-                filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
+                filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
             }
 
             /* Fix mobile override */
@@ -1062,6 +1111,7 @@
                     padding: 1.2em 2em;
                     height: 75px;
                 }
+
                 .btn-label {
                     font-size: 1rem;
                 }
@@ -1076,22 +1126,23 @@
         <div class="btn-anchor">
             <!-- Aura de brilho externa -->
             <div class="btn-glow-aura"></div>
-            
+
             <button class="zap-btn" onclick="window.open('https://wa.me/5531988004874', '_blank')">
                 <!-- Camada Gloss -->
                 <div class="glass-finish"></div>
-                
+
                 <!-- Ondas de energia interna -->
                 <div class="energy-wave wave-1"></div>
                 <div class="energy-wave wave-2"></div>
                 <div class="energy-wave wave-3"></div>
                 <div class="energy-wave wave-4"></div>
                 <div class="energy-wave wave-5"></div>
-                
+
                 <!-- Conteúdo -->
                 <div class="btn-label">
                     <svg class="wa-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#FFF" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.411.001 12.045a11.811 11.811 0 001.592 5.925L0 24l6.135-1.61a11.771 11.771 0 005.911 1.586h.005c6.637 0 12.048-5.412 12.052-12.047a11.816 11.816 0 00-3.376-8.427h-.001z"/>
+                        <path fill="#FFF"
+                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .004 5.411.001 12.045a11.811 11.811 0 001.592 5.925L0 24l6.135-1.61a11.771 11.771 0 005.911 1.586h.005c6.637 0 12.048-5.412 12.052-12.047a11.816 11.816 0 00-3.376-8.427h-.001z" />
                     </svg>
                     <span>Conectar Agora</span>
                 </div>
@@ -1160,13 +1211,12 @@
         class="min-h-[90vh] flex flex-col items-center justify-center relative py-32 px-4 overflow-hidden bg-slate-950/20">
         <!-- Título -->
         <div class="z-10 mb-20 text-center">
-            <h2
-                class="text-3xl md:text-5xl font-extrabold text-white tracking-tight"
+            <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight"
                 style="text-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3);">
                 Minhas Redes Sociais
             </h2>
-            <p class="text-slate-200 mt-4 text-sm md:text-base font-medium" 
-               style="text-shadow: 0 0 8px rgba(255,255,255,0.5);">Aperte ou passe o mouse nas teclas para
+            <p class="text-slate-200 mt-4 text-sm md:text-base font-medium"
+                style="text-shadow: 0 0 8px rgba(255,255,255,0.5);">Aperte ou passe o mouse nas teclas para
                 acessar</p>
         </div>
 
