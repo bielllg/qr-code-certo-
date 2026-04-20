@@ -622,19 +622,12 @@
       animation-delay: 2.8s;
     }
 
-    /* -- Revezamento da Luz (Sem alterar o visual original) -- */
-    /* Atrasamos as animações estruturais do segundo botão em exato meio-ciclo para as luzes nunca baterem juntas */
-    
+    /* -- Botão Portfólio sem Luz -- */
+    /* Removemos a pulsação de foco (focus-breathing) e mantemos um visual mais sóbrio */
     .btn-alt {
-      animation-delay: -2s !important; /* Ciclo do focus-breathing é 4s (atraso de 2s) */
-    }
-
-    .btn-alt .scanner-line {
-      animation-delay: -2s !important; /* Ciclo do scan-move é 4s (atraso de 2s) */
-    }
-
-    .btn-alt .circuit-node {
-      animation-delay: -1s !important; /* Ciclo do node-pulse é 2s (atraso de 1s) */
+      animation: none !important;
+      box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.4) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
     }
 
     @keyframes loopRipple {
@@ -813,10 +806,8 @@
               </div>
 
               <div class="ripple-wrapper">
-                <div class="ripple-aura"></div>
                 <a href="https://portfolio-gabriel-eight-flax.vercel.app/" target="_blank" class="ripple-btn btn-alt">
                   <div class="inner-gloss"></div>
-                  <div class="scanner-line"></div>
 
                   <!-- HUD Corners -->
                   <div class="btn-corner corner-tl"></div>
@@ -828,17 +819,7 @@
                   <svg class="circuit-l" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path class="energy-path" d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white" stroke-width="1.5" stroke-linecap="round" />
                     <path d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
-                    <circle class="circuit-node" cx="95" cy="25" r="3" fill="white" fill-opacity="0.8" />
-                    <circle class="circuit-node" cx="85" cy="55" r="3" fill="white" fill-opacity="0.8" />
-                    <circle class="circuit-node" cx="48" cy="33" r="2" fill="white" fill-opacity="0.6" />
-                    <circle class="circuit-node" cx="10" cy="40" r="2" fill="white" fill-opacity="0.6" />
                   </svg>
-
-                  <span class="circle circle-1"></span>
-                  <span class="circle circle-2"></span>
-                  <span class="circle circle-3"></span>
-                  <span class="circle circle-4"></span>
-                  <span class="circle circle-5"></span>
 
                   <span class="text-content">portfólio</span>
 
@@ -847,7 +828,6 @@
                     <rect x="10" y="10" width="20" height="20" rx="2" stroke="white" stroke-width="2" />
                     <path class="energy-path" d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white" stroke-width="2" stroke-linecap="round" />
                     <path d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.3" />
-                    <circle class="circuit-node" cx="20" cy="20" r="4" fill="white" fill-opacity="0.5" />
                   </svg>
                 </a>
               </div>
