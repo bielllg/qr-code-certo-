@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nossos Serviços</title>
+
+  <!-- Google Fonts - Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset & Base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #030006; /* Dark background similar to index.html */
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4rem 1rem;
+      overflow-x: hidden;
+    }
+
+    /* == HEADINGS == */
+    .section-subtitle {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.2;
+      max-width: 800px;
+      margin-bottom: 4rem;
+    }
+
+    .section-title span.purple-glow {
+      background: linear-gradient(90deg, #A855F7, #D8B4FE);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      position: relative;
+    }
+
+    /* Traço de brilho debaixo da palavra */
+    .section-title span.purple-glow::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, #A855F7, #D8B4FE);
+      border-radius: 2px;
+      box-shadow: 0 0 10px #A855F7;
+    }
+
+    /* == 3D SLIDER == */
+    /* Variáveis base baseadas no código React fornecido */
+    :root {
+      --n: 3; /* Número de cards */
+      --card-width: 20em;
+      --card-aspect: 10/12;
+      --duration: 32s;
+      --perspective: 60em;
+      
+      /* Tangente de 60deg (metade de 120deg) é ~1.732.
+         Então raio = (0.5 * 20em + 0.5em) / 1.732 ≈ 10.5em / 1.732 ≈ 6.06em 
+         Mas como temos poucos cards, vou forçar um raio um pouco maior para evitar colisão visual. */
+      --radius: 12em; 
+    }
+
+    .slider-container {
+      width: 100%;
+      height: 500px;
+      display: grid;
+      place-items: center;
+      perspective: var(--perspective);
+      position: relative;
+      /* Mascara com fade out nas bordas (linear gradient horizontal) */
+      -webkit-mask: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+      mask: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    }
+
+    .slider-ring {
+      display: grid;
+      place-self: center;
+      pointer-events: auto;
+      transform-style: preserve-3d;
+      animation: rotate-left var(--duration) linear infinite;
+    }
+
+    @keyframes rotate-left {
+      0% {
+        transform: rotateY(0deg);
+      }
+      100% {
+        transform: rotateY(360deg);
+      }
+    }
+
+    /* Se quiser pausar no hover */
+    .slider-container:hover .slider-ring {
+      animation-play-state: paused;
+    }
+
+    .card {
+      grid-column: 1;
+      grid-row: 1;
+      width: var(--card-width);
+      aspect-ratio: var(--card-aspect);
+      background: rgba(15, 15, 20, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 1.5em;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
+      
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+
+      /* Transição suave caso ajustemos variáveis */
+      transition: filter 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      filter: brightness(1.2);
+    }
+
+    /* Cálculo de posições 3D (para 3 cards: 0deg, 120deg, 240deg) */
+    .card:nth-child(1) {
+      transform: rotateY(0deg) translateZ(calc(-1 * var(--radius)));
+    }
+    .card:nth-child(2) {
+      transform: rotateY(120deg) translateZ(calc(-1 * var(--radius)));
+    }
+    .card:nth-child(3) {
+      transform: rotateY(240deg) translateZ(calc(-1 * var(--radius)));
+    }
+
+    /* == CARD CONTENT == */
+    .icon-wrapper {
+      margin-bottom: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-wrapper svg {
+      width: 48px;
+      height: 48px;
+      stroke: #d8b4fe;
+      stroke-width: 1.5;
+      fill: none;
+      filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="section-subtitle">NOSSOS SERVIÇOS</div>
+  <h2 class="section-title">
+    Criamos o futuro digital do seu <br>
+    <span class="purple-glow">negócio</span>
+  </h2>
+
+  <!-- Componente ImageSlider3D convertido para HTML/CSS PURO -->
+  <div class="slider-container">
+    <div class="slider-ring">
+      
+      <!-- Card 1 -->
+      <div class="card">
+        <div class="icon-wrapper">
+          <!-- Magic Wand Icon -->
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17l10 -10"></path>
+            <path d="M16 4l4 4"></path>
+            <path d="M4 16l4 4"></path>
+            <circle cx="6" cy="18" r="1.5" fill="#d8b4fe" stroke="none"></circle>
+            <path d="M2 12l2 0"></path>
+            <path d="M12 2l0 2"></path>
+            <path d="M20 12l2 0"></path>
+            <path d="M12 20l0 2"></path>
+          </svg>
+        </div>
+        <h3 class="card-title">Design de Interface</h3>
+        <p class="card-text">Experiências visuais impactantes que elevam a percepção de valor da sua marca.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card">
+        <div class="icon-wrapper">
+          <!-- Shield Check Icon -->
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l8 4.5v5.5c0 4.5 -3.5 8 -8 11c-4.5 -3 -8 -6.5 -8 -11v-5.5z"></path>
+            <path d="M9 13l2 2l4 -4"></path>
+          </svg>
+        </div>
+        <h3 class="card-title">Segurança Digital</h3>
+        <p class="card-text">Sistemas blindados e proteção de dados para garantir a total integridade do seu negócio.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card">
+        <div class="icon-wrapper">
+          <!-- Globe Icon -->
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3.6 9h16.8"></path>
+            <path d="M3.6 15h16.8"></path>
+            <path d="M11.5 3a17 17 0 0 0 0 18"></path>
+            <path d="M12.5 3a17 17 0 0 1 0 18"></path>
+          </svg>
+        </div>
+        <h3 class="card-title">Sites & Landing Pages</h3>
+        <p class="card-text">Desenvolvimento de alta performance com foco total em conversão de clientes.</p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>
