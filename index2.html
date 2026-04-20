@@ -21,7 +21,6 @@
 
         body {
             background-color: #030006;
-            /* Dark background similar to index.html */
             color: #ffffff;
             font-family: 'Outfit', sans-serif;
             min-height: 100vh;
@@ -59,44 +58,13 @@
             position: relative;
         }
 
-        /* Traço de brilho debaixo da palavra */
-        .section-title span.purple-glow::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 3px;
-            background: linear-gradient(90deg, #A855F7, #D8B4FE);
-            border-radius: 2px;
-            box-shadow: 0 0 10px #A855F7;
-        }
-
-        /* == 3D SLIDER == */
-        /* Variáveis base baseadas no código React fornecido */
-        :root {
-            --n: 3;
-            /* Número de cards */
-            --card-width: 20em;
-            --card-aspect: 10/12;
-            --duration: 32s;
-            --perspective: 60em;
-
-            /* Tangente de 60deg (metade de 120deg) é ~1.732.
-         Então raio = (0.5 * 20em + 0.5em) / 1.732 ≈ 10.5em / 1.732 ≈ 6.06em 
-         Mas como temos poucos cards, vou forçar um raio um pouco maior para evitar colisão visual. */
-            --radius: 12em;
-        }
-
         .slider-container {
             width: 100%;
             height: 500px;
             display: grid;
             place-items: center;
-            perspective: var(--perspective);
+            perspective: 60em;
             position: relative;
-            /* Mascara com fade out nas bordas (linear gradient horizontal) */
             -webkit-mask: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
             mask: linear-gradient(90deg, transparent 0%, #000 20%, #000 80%, transparent 100%);
         }
@@ -104,22 +72,15 @@
         .slider-ring {
             display: grid;
             place-self: center;
-            pointer-events: auto;
             transform-style: preserve-3d;
-            animation: rotate-left var(--duration) linear infinite;
+            animation: rotate-left 32s linear infinite;
         }
 
         @keyframes rotate-left {
-            0% {
-                transform: rotateY(0deg);
-            }
-
-            100% {
-                transform: rotateY(360deg);
-            }
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
         }
 
-        /* Se quiser pausar no hover */
         .slider-container:hover .slider-ring {
             animation-play-state: paused;
         }
@@ -127,8 +88,8 @@
         .card {
             grid-column: 1;
             grid-row: 1;
-            width: var(--card-width);
-            aspect-ratio: var(--card-aspect);
+            width: 20em;
+            aspect-ratio: 10/12;
             background: rgba(15, 15, 20, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 1.5em;
@@ -138,12 +99,8 @@
             align-items: center;
             text-align: center;
             justify-content: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
-
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-
-            /* Transição suave caso ajustemos variáveis */
             transition: filter 0.3s ease, border-color 0.3s ease;
         }
 
@@ -152,48 +109,88 @@
             filter: brightness(1.2);
         }
 
-        /* Cálculo de posições 3D (para 3 cards: 0deg, 120deg, 240deg) */
-        .card:nth-child(1) {
-            transform: rotateY(0deg) translateZ(calc(-1 * var(--radius)));
-        }
-
-        .card:nth-child(2) {
-            transform: rotateY(120deg) translateZ(calc(-1 * var(--radius)));
-        }
-
-        .card:nth-child(3) {
-            transform: rotateY(240deg) translateZ(calc(-1 * var(--radius)));
-        }
-
-        /* == CARD CONTENT == */
-        .icon-wrapper {
-            margin-bottom: 1.5rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .card:nth-child(1) { transform: rotateY(0deg) translateZ(-12em); }
+        .card:nth-child(2) { transform: rotateY(120deg) translateZ(-12em); }
+        .card:nth-child(3) { transform: rotateY(240deg) translateZ(-12em); }
 
         .icon-wrapper svg {
-            width: 48px;
-            height: 48px;
-            stroke: #d8b4fe;
-            stroke-width: 1.5;
-            fill: none;
+            width: 48px; height: 48px; stroke: #d8b4fe; fill: none;
             filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+            margin-bottom: 1.5rem;
         }
 
-        .card-title {
-            font-size: 1.5rem;
+        .card-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .card-text { font-size: 0.9rem; color: rgba(255, 255, 255, 0.6); line-height: 1.5; }
+
+        /* == BUTTON STYLES == */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 4rem;
+            position: relative;
+            z-index: 100;
+        }
+
+        .ripple-btn {
+            font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            margin-bottom: 1rem;
+            padding: 1.2em 4em;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 320px;
+            height: 80px;
+            cursor: pointer;
         }
 
-        .card-text {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 300;
-            line-height: 1.5;
+        .ripple-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
         }
+
+        .ripple-btn:active {
+            transform: scale(0.95);
+            filter: brightness(0.8);
+        }
+
+        .btn-text {
+            font-size: 1.4rem;
+            text-transform: lowercase;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        /* Click Ripple Visual */
+        .click-ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: ripple-effect 0.6s ease-out;
+        }
+
+        @keyframes ripple-effect {
+            from { width: 0; height: 0; opacity: 0.5; }
+            to { width: 600px; height: 600px; opacity: 0; }
+        }
+
+        .scanner-line {
+            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: scan 3s infinite;
+        }
+        @keyframes scan { from { left: -100%; } to { left: 150%; } }
     </style>
 </head>
 
@@ -205,62 +202,60 @@
         <span class="purple-glow">negócio</span>
     </h2>
 
-    <!-- Componente ImageSlider3D convertido para HTML/CSS PURO -->
     <div class="slider-container">
         <div class="slider-ring">
-
-            <!-- Card 1 -->
             <div class="card">
                 <div class="icon-wrapper">
-                    <!-- Magic Wand Icon -->
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M7 17l10 -10"></path>
-                        <path d="M16 4l4 4"></path>
-                        <path d="M4 16l4 4"></path>
-                        <circle cx="6" cy="18" r="1.5" fill="#d8b4fe" stroke="none"></circle>
-                        <path d="M2 12l2 0"></path>
-                        <path d="M12 2l0 2"></path>
-                        <path d="M20 12l2 0"></path>
-                        <path d="M12 20l0 2"></path>
-                    </svg>
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l10 -10"></path><path d="M16 4l4 4"></path><path d="M4 16l4 4"></path><circle cx="6" cy="18" r="1.5" fill="currentColor" stroke="none"></circle></svg>
                 </div>
                 <h3 class="card-title">Design de Interface</h3>
                 <p class="card-text">Experiências visuais impactantes que elevam a percepção de valor da sua marca.</p>
             </div>
-
-            <!-- Card 2 -->
             <div class="card">
                 <div class="icon-wrapper">
-                    <!-- Shield Check Icon -->
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 3l8 4.5v5.5c0 4.5 -3.5 8 -8 11c-4.5 -3 -8 -6.5 -8 -11v-5.5z"></path>
-                        <path d="M9 13l2 2l4 -4"></path>
-                    </svg>
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v5.5c0 4.5 -3.5 8 -8 11c-4.5 -3 -8 -6.5 -8 -11v-5.5z"></path><path d="M9 13l2 2l4 -4"></path></svg>
                 </div>
                 <h3 class="card-title">Segurança Digital</h3>
-                <p class="card-text">Sistemas blindados e proteção de dados para garantir a total integridade do seu
-                    negócio.</p>
+                <p class="card-text">Sistemas blindados e proteção de dados para garantir a total integridade do seu negócio.</p>
             </div>
-
-            <!-- Card 3 -->
             <div class="card">
                 <div class="icon-wrapper">
-                    <!-- Globe Icon -->
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="9"></circle>
-                        <path d="M3.6 9h16.8"></path>
-                        <path d="M3.6 15h16.8"></path>
-                        <path d="M11.5 3a17 17 0 0 0 0 18"></path>
-                        <path d="M12.5 3a17 17 0 0 1 0 18"></path>
-                    </svg>
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3.6 9h16.8"></path><path d="M3.6 15h16.8"></path><path d="M11.5 3a17 17 0 0 0 0 18"></path></svg>
                 </div>
                 <h3 class="card-title">Sites & Landing Pages</h3>
                 <p class="card-text">Desenvolvimento de alta performance com foco total em conversão de clientes.</p>
             </div>
-
         </div>
     </div>
 
-</body>
+    <div class="buttons-container">
+        <div class="ripple-wrapper">
+            <button class="ripple-btn" id="mainButton">
+                <div class="scanner-line"></div>
+                <span class="btn-text">começar agora</span>
+            </button>
+        </div>
+    </div>
 
+    <script>
+        document.getElementById('mainButton').addEventListener('click', function (e) {
+            const x = e.clientX - e.currentTarget.getBoundingClientRect().left;
+            const y = e.clientY - e.currentTarget.getBoundingClientRect().top;
+            
+            const ripple = document.createElement('span');
+            ripple.className = 'click-ripple';
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+            
+            // Aqui você pode adicionar a ação de clique (ex: abrir whatsapp, etc)
+            console.log('Botão clicado!');
+        });
+    </script>
+</body>
 </html>
