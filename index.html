@@ -362,26 +362,38 @@
 
       border: 1px solid rgba(255, 255, 255, 0.1);
 
-      /* Pulsação de foco constante */
+      /* Revezamento principal Acesso/Apagado */
       animation: focus-breathing 4s ease-in-out infinite;
     }
 
     @keyframes focus-breathing {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 15px 25px 50px rgba(0, 0, 0, 0.6), 0 0 5px rgba(255, 255, 255, 0.05);
-        border-top-color: rgba(255, 255, 255, 0.1);
-        border-left-color: rgba(255, 255, 255, 0.1);
+      /* APAGADO: Luz completamente cortada */
+      0%, 40% {
+        transform: scale(0.98);
+        box-shadow: 15px 25px 50px rgba(0, 0, 0, 0.5), 0 0 0px rgba(255, 255, 255, 0);
+        border-top-color: rgba(255, 255, 255, 0.05);
+        border-left-color: rgba(255, 255, 255, 0.05);
+        filter: brightness(0.5); /* Diminui brilho geral em 50% */
+      }
+      
+      /* ACESO: Luz Branca Forte */
+      50%, 90% {
+        transform: scale(1.02);
+        box-shadow: 
+          15px 25px 60px rgba(0, 0, 0, 0.8), 
+          0 0 50px rgba(255, 255, 255, 0.6),
+          inset 0 0 20px rgba(255, 255, 255, 0.5);
+        border-top-color: rgba(255, 255, 255, 1);
+        border-left-color: rgba(255, 255, 255, 1);
+        filter: brightness(1.2); /* Aumenta brilho geral em 20% */
       }
 
-      50% {
-        transform: scale(1.03);
-        box-shadow: 
-          20px 30px 60px rgba(0, 0, 0, 0.7), 
-          0 0 45px rgba(255, 255, 255, 0.35),
-          inset 0 0 10px rgba(255, 255, 255, 0.2);
-        border-top-color: rgba(255, 255, 255, 0.9);
-        border-left-color: rgba(255, 255, 255, 0.9);
+      100% {
+        transform: scale(0.98);
+        box-shadow: 15px 25px 50px rgba(0, 0, 0, 0.5), 0 0 0px rgba(255, 255, 255, 0);
+        border-top-color: rgba(255, 255, 255, 0.05);
+        border-left-color: rgba(255, 255, 255, 0.05);
+        filter: brightness(0.5);
       }
     }
 
@@ -625,28 +637,10 @@
       animation-delay: 2.8s;
     }
 
-    /* Revezamento de Luz (btn-alt): as luzes de um aparecem enquanto as do outro descansam */
+    /* Revezamento de Luz (btn-alt): atrase exatamente metade do ciclo para estarem sempre opostos */
     .btn-alt {
-      animation-delay: -2.0s !important; /* Para focus-breathing (4s) */
+      animation-delay: -2.0s !important; /* Para focus-breathing (4s ciclo) */
     }
-
-    .btn-alt .scanner-line {
-      animation-delay: -2.0s !important; /* Para scan-move (4s) */
-    }
-
-    .btn-alt .circuit-node {
-      animation-delay: -1.0s !important; /* Para node-pulse (2s) */
-    }
-
-    .btn-alt .energy-path {
-      animation-delay: -5.0s !important; /* Para energy-flow (10s) */
-    }
-
-    .btn-alt .circle-1 { animation-delay: 1.75s !important; }
-    .btn-alt .circle-2 { animation-delay: 2.45s !important; }
-    .btn-alt .circle-3 { animation-delay: 3.15s !important; }
-    .btn-alt .circle-4 { animation-delay: 0.35s !important; }
-    .btn-alt .circle-5 { animation-delay: 1.05s !important; }
 
     @keyframes loopRipple {
       0% {
