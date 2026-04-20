@@ -298,10 +298,19 @@
     }
 
     /* Ripple Button Styles */
+    .buttons-container {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
     .ripple-wrapper {
       position: relative;
       display: inline-block;
-      margin-top: 2rem;
     }
 
     .ripple-aura {
@@ -747,49 +756,86 @@
               Desenvolvemos soluções digitais inteligentes para negócios que querem escalar com tecnologia, design e
               automação.
             </p>
-            <div class="ripple-wrapper">
-              <div class="ripple-aura"></div>
-              <button class="ripple-btn">
-                <div class="inner-gloss"></div>
-                <div class="scanner-line"></div>
+            <div class="buttons-container">
+              <div class="ripple-wrapper">
+                <div class="ripple-aura"></div>
+                <a href="#" class="ripple-btn">
+                  <div class="inner-gloss"></div>
+                  <div class="scanner-line"></div>
 
-                <!-- HUD Corners -->
-                <div class="btn-corner corner-tl"></div>
-                <div class="btn-corner corner-tr"></div>
-                <div class="btn-corner corner-bl"></div>
-                <div class="btn-corner corner-br"></div>
+                  <!-- HUD Corners -->
+                  <div class="btn-corner corner-tl"></div>
+                  <div class="btn-corner corner-tr"></div>
+                  <div class="btn-corner corner-bl"></div>
+                  <div class="btn-corner corner-br"></div>
 
-                <!-- Circuitagem Esquerda (como na imagem) -->
-                <svg class="circuit-l" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path class="energy-path" d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50"
-                    stroke="white" stroke-width="1.5" stroke-linecap="round" />
-                  <path d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white"
-                    stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
-                  <circle class="circuit-node" cx="95" cy="25" r="3" fill="white" fill-opacity="0.8" />
-                  <circle class="circuit-node" cx="85" cy="55" r="3" fill="white" fill-opacity="0.8" />
-                  <circle class="circuit-node" cx="48" cy="33" r="2" fill="white" fill-opacity="0.6" />
-                  <circle class="circuit-node" cx="10" cy="40" r="2" fill="white" fill-opacity="0.6" />
-                </svg>
+                  <!-- Circuitagem Esquerda (como na imagem) -->
+                  <svg class="circuit-l" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="energy-path" d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
+                    <circle class="circuit-node" cx="95" cy="25" r="3" fill="white" fill-opacity="0.8" />
+                    <circle class="circuit-node" cx="85" cy="55" r="3" fill="white" fill-opacity="0.8" />
+                    <circle class="circuit-node" cx="48" cy="33" r="2" fill="white" fill-opacity="0.6" />
+                    <circle class="circuit-node" cx="10" cy="40" r="2" fill="white" fill-opacity="0.6" />
+                  </svg>
 
-                <span class="circle circle-1"></span>
-                <span class="circle circle-2"></span>
-                <span class="circle circle-3"></span>
-                <span class="circle circle-4"></span>
-                <span class="circle circle-5"></span>
+                  <span class="circle circle-1"></span>
+                  <span class="circle circle-2"></span>
+                  <span class="circle circle-3"></span>
+                  <span class="circle circle-4"></span>
+                  <span class="circle circle-5"></span>
 
-                <span class="text-content">começar agora</span>
+                  <span class="text-content">começar agora</span>
 
-                <!-- Ícone Chip/Engrenagem Direita -->
-                <svg class="circuit-r" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="10" y="10" width="20" height="20" rx="2" stroke="white" stroke-width="2" />
-                  <path class="energy-path"
-                    d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white"
-                    stroke-width="2" stroke-linecap="round" />
-                  <path d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35"
-                    stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.3" />
-                  <circle class="circuit-node" cx="20" cy="20" r="4" fill="white" fill-opacity="0.5" />
-                </svg>
-              </button>
+                  <!-- Ícone Chip/Engrenagem Direita -->
+                  <svg class="circuit-r" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="20" height="20" rx="2" stroke="white" stroke-width="2" />
+                    <path class="energy-path" d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <path d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.3" />
+                    <circle class="circuit-node" cx="20" cy="20" r="4" fill="white" fill-opacity="0.5" />
+                  </svg>
+                </a>
+              </div>
+
+              <div class="ripple-wrapper">
+                <div class="ripple-aura"></div>
+                <a href="https://portfolio-gabriel-eight-flax.vercel.app/" target="_blank" class="ripple-btn">
+                  <div class="inner-gloss"></div>
+                  <div class="scanner-line"></div>
+
+                  <!-- HUD Corners -->
+                  <div class="btn-corner corner-tl"></div>
+                  <div class="btn-corner corner-tr"></div>
+                  <div class="btn-corner corner-bl"></div>
+                  <div class="btn-corner corner-br"></div>
+
+                  <!-- Circuitagem Esquerda (como na imagem) -->
+                  <svg class="circuit-l" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="energy-path" d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
+                    <circle class="circuit-node" cx="95" cy="25" r="3" fill="white" fill-opacity="0.8" />
+                    <circle class="circuit-node" cx="85" cy="55" r="3" fill="white" fill-opacity="0.8" />
+                    <circle class="circuit-node" cx="48" cy="33" r="2" fill="white" fill-opacity="0.6" />
+                    <circle class="circuit-node" cx="10" cy="40" r="2" fill="white" fill-opacity="0.6" />
+                  </svg>
+
+                  <span class="circle circle-1"></span>
+                  <span class="circle circle-2"></span>
+                  <span class="circle circle-3"></span>
+                  <span class="circle circle-4"></span>
+                  <span class="circle circle-5"></span>
+
+                  <span class="text-content">portfólio</span>
+
+                  <!-- Ícone Chip/Engrenagem Direita -->
+                  <svg class="circuit-r" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="20" height="20" rx="2" stroke="white" stroke-width="2" />
+                    <path class="energy-path" d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <path d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.3" />
+                    <circle class="circuit-node" cx="20" cy="20" r="4" fill="white" fill-opacity="0.5" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
