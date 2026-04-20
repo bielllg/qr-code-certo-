@@ -16,9 +16,9 @@
             --purple-neon: #A855F7;
             --blue-neon: #4f46e5;
             --card-width: 18em;
-            --n: 12; /* Number of images */
-            --radius: calc((var(--card-width) * 0.5 + 1em) / 0.2679); /* tan(15deg) approx 0.2679 */
-            --duration: 40s;
+            --n: 12;
+            --radius: calc((var(--card-width) * 0.5 + 1em) / 0.2679);
+            --duration: 45s;
         }
 
         * {
@@ -54,18 +54,18 @@
         .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.3;
-            animation: orb-float 25s infinite alternate ease-in-out;
+            filter: blur(120px);
+            opacity: 0.35;
+            animation: orb-float 30s infinite alternate ease-in-out;
         }
 
         .orb-1 { width: 600px; height: 600px; background: var(--purple-neon); top: -200px; left: -100px; }
         .orb-2 { width: 500px; height: 500px; background: var(--blue-neon); bottom: -150px; right: -100px; animation-delay: -7s; }
-        .orb-3 { width: 400px; height: 400px; background: #9333ea; top: 40%; left: 55%; animation-delay: -12s; }
+        .orb-3 { width: 400px; height: 400px; background: #9333ea; top: 40%; left: 55%; animation-delay: -15s; }
 
         @keyframes orb-float {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(150px, 80px) scale(1.3); }
+            100% { transform: translate(120px, 60px) scale(1.4); }
         }
 
         /* == HEADER == */
@@ -78,7 +78,7 @@
         .section-subtitle {
             font-size: 0.75rem;
             font-weight: 600;
-            letter-spacing: 0.5em;
+            letter-spacing: 0.6em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.4);
             margin-bottom: 1.5rem;
@@ -95,7 +95,6 @@
             background: linear-gradient(135deg, var(--purple-neon), #D8B4FE);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            position: relative;
         }
 
         /* == LIGHTSWIND 3D SLIDER == */
@@ -104,7 +103,7 @@
             height: 600px;
             display: grid;
             place-items: center;
-            perspective: 45em;
+            perspective: 50em;
             position: relative;
             z-index: 5;
             -webkit-mask: linear-gradient(90deg, transparent, #000 15% 85%, transparent);
@@ -135,9 +134,9 @@
             aspect-ratio: 7/10;
             position: relative;
             
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 2rem;
@@ -145,18 +144,19 @@
             
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
             
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
             transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
             
             cursor: pointer;
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6);
         }
 
-        /* Calculated Distribution */
+        /* Distribution Logic */
         .card:nth-child(1) { transform: rotateY(0deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
         .card:nth-child(2) { transform: rotateY(30deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
         .card:nth-child(3) { transform: rotateY(60deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
@@ -170,15 +170,16 @@
         .card:nth-child(11) { transform: rotateY(300deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
         .card:nth-child(12) { transform: rotateY(330deg) translateZ(calc(-1 * var(--radius))) rotateY(20deg); }
 
-        /* Focus State (Hover) */
         .card:hover {
-            border-color: rgba(168, 85, 247, 0.4);
-            box-shadow: 0 0 40px rgba(168, 85, 247, 0.2), 0 40px 80px rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.2), 0 50px 100px rgba(0, 0, 0, 0.8);
             filter: brightness(1.2);
             z-index: 100;
         }
 
-        /* Specific Hover Transforms */
+        /* Focus Hover */
+        .card:hover { transform: var(--hover-transform); }
         .card:nth-child(1):hover { transform: rotateY(0deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
         .card:nth-child(2):hover { transform: rotateY(30deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
         .card:nth-child(3):hover { transform: rotateY(60deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
@@ -193,107 +194,56 @@
         .card:nth-child(12):hover { transform: rotateY(330deg) translateZ(calc(-1 * var(--radius) + 120px)) scale(1.1) rotateY(0deg); }
 
         /* == CARD CONTENT == */
-        .card-img {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-cover: cover;
-            opacity: 0.5;
-            z-index: -1;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+        .card-icon-main {
+            width: 100px; height: 100px;
+            stroke: #d8b4fe; stroke-width: 1.2; fill: none;
+            margin-bottom: 2.5rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 15px var(--purple-neon));
         }
 
-        .card:hover .card-img {
-            opacity: 0.8;
-            transform: scale(1.1);
-        }
-
-        .card-overlay {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 60%;
-            background: linear-gradient(to top, rgba(3,0,6,0.95), transparent);
-            z-index: 1;
-        }
-
-        .card-body {
-            position: relative;
-            z-index: 10;
-        }
-
-        .card-icon {
-            width: 42px; height: 42px;
-            stroke: #d8b4fe; stroke-width: 1.5; fill: none;
-            margin-bottom: 1rem;
-            transition: transform 0.4s ease;
-            filter: drop-shadow(0 0 8px var(--purple-neon));
-        }
-
-        .card:hover .card-icon {
-            transform: rotate(12deg) scale(1.2);
+        .card:hover .card-icon-main {
+            transform: scale(1.25) rotate(15deg);
+            stroke: #fff;
         }
 
         .card-title {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             color: #fff;
         }
 
         .card-text {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.4;
-            max-width: 90%;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+            font-weight: 300;
         }
 
-        /* == BUTTON == */
-        .footer-action {
-            margin-top: 4rem;
-            z-index: 100;
+        /* Small reflection light inside card */
+        .card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            pointer-events: none;
         }
 
+        /* == FOOTER ACTION == */
+        .footer-action { margin-top: 4rem; z-index: 100; }
         .premium-btn {
-            padding: 1.2rem 4rem;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            font-size: 1.2rem;
-            text-transform: lowercase;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.4s ease;
-            text-decoration: none;
+            padding: 1.4rem 5rem; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; color: white;
+            font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.3rem;
+            text-transform: lowercase; letter-spacing: 2px; cursor: pointer;
+            position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
+            transition: all 0.4s ease; text-decoration: none;
         }
-
         .premium-btn:hover {
-            border-color: var(--purple-neon);
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
-            transform: translateY(-5px);
+            border-color: var(--purple-neon); box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
+            transform: translateY(-8px);
         }
-
         .premium-btn:active { transform: scale(0.95); }
-
-        .click-ripple {
-            position: absolute; background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%);
-            animation: ripple-anim 0.6s ease-out;
-        }
-
-        @keyframes ripple-anim {
-            from { width: 0; height: 0; opacity: 0.5; }
-            to { width: 500px; height: 500px; opacity: 0; }
-        }
-
+        
         .scanner {
             position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
@@ -314,153 +264,105 @@
 
     <header class="section-header">
         <div class="section-subtitle">Nossos Serviços</div>
-        <h1 class="section-title">Tecnologia que move o <br> <span class="glow-text">seu futuro</span></h1>
+        <h1 class="section-title">Infraestrutura <span class="glow-text">Digital</span></h1>
     </header>
 
     <main class="slider-viewport">
         <div class="slider-ring">
             
-            <!-- Card 1 - Site -->
+            <!-- Site -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1540968221243-29f5d70540bf?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <svg class="card-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"></path></svg>
-                    <h3 class="card-title">Sites & LP</h3>
-                    <p class="card-text">Desenvolvimento focado em conversão e performance extrema.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3.6 9h16.8M3.6 15h16.8M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"></path></svg>
+                <h3 class="card-title">Sites & LP</h3>
+                <p class="card-text">Alta performance e conversão.</p>
             </div>
 
-            <!-- Card 2 - Automação -->
+            <!-- Automação -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1596135187959-562c650d98bc?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M13 3l-2 3H8l-1 5h2l-2 7 10-10h-3l4-5h-5z"></path></svg>
-                    <h3 class="card-title">Automação</h3>
-                    <p class="card-text">Sistemas que trabalham sozinhos 24 horas por dia.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M13 3l-2 3H8l-1 5h2l-2 7 10-10h-3l4-5h-5z"></path></svg>
+                <h3 class="card-title">Automação</h3>
+                <p class="card-text">Fluxos que trabalham sozinhos.</p>
             </div>
 
-            <!-- Card 3 - Design -->
+            <!-- Design -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1628944682084-831f35256163?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M7 17l10-10M16 4l4 4M4 16l4 4"></path><circle cx="6" cy="18" r="1.5" fill="currentColor"></circle></svg>
-                    <h3 class="card-title">UI/UX Design</h3>
-                    <p class="card-text">Interfaces que elevam a percepção de valor da sua marca.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M7 17l10-10M16 4l4 4M4 16l4 4"></path><circle cx="6" cy="18" r="1.5" fill="currentColor"></circle></svg>
+                <h3 class="card-title">UI/UX Design</h3>
+                <p class="card-text">Interfaces de alto impacto em valor.</p>
             </div>
 
-            <!-- Card 4 - Segurança -->
+            <!-- Segurança -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1590013330451-3946e83e0392?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 3l8 4.5v5.5c0 4.5-3.5 8-8 11-4.5-3-8-6.5-8-11v-5.5zM9 12l2 2l4-4"></path></svg>
-                    <h3 class="card-title">Segurança</h3>
-                    <p class="card-text">Proteção total de dados e integridade do seu sistema.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M12 3l8 4.5v5.5c0 4.5-3.5 8-8 11-4.5-3-8-6.5-8-11v-5.5zM9 12l2 2l4-4"></path></svg>
+                <h3 class="card-title">Segurança</h3>
+                <p class="card-text">Blindagem total de dados.</p>
             </div>
 
-            <!-- Card 5 - Portfólio -->
+            <!-- Arquitetura -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1590421959604-741d0eec0a2e?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <svg class="card-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg>
-                    <h3 class="card-title">Arquitetura</h3>
-                    <p class="card-text">Escalabilidade para grandes volumes de dados.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg>
+                <h3 class="card-title">Arquitetura</h3>
+                <p class="card-text">Escalabilidade para milhões.</p>
             </div>
 
-            <!-- Card 6 - Estratégia -->
+            <!-- Consultoria -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1572613000712-eadc57acbecd?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <svg class="card-icon" viewBox="0 0 24 24"><path d="M3 3v18h18"></path><path d="M18 7l-5 5-3-3-4 4"></path></svg>
-                    <h3 class="card-title">Consultoria</h3>
-                    <p class="card-text">Estratégias digitais para dominar o mercado.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M3 3v18h18M18 7l-5 5-3-3-4 4"></path></svg>
+                <h3 class="card-title">Consultoria</h3>
+                <p class="card-text">Estratégias de dominação digital.</p>
             </div>
 
-             <!-- Card 7 to 12 (Using Unsplash from prompt) -->
+            <!-- Inovação -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1570097192570-4b49a6736f9f?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <h3 class="card-title">Inovação</h3>
-                    <p class="card-text">Antecipamos tendências para o seu negócio.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2v1M5.6 5.6l.7.7M18.4 5.6l-.7.7M2 12h1M21 12h1M12 6c-3.3 0-6 2.7-6 6 0 2.5 1.4 4.5 3.5 5.5l.5.5h4l.5-.5c2.1-1 3.5-3 3.5-5.5 0-3.3-2.7-6-6-6z"></path></svg>
+                <h3 class="card-title">Inovação</h3>
+                <p class="card-text">Antecipando tendências globais.</p>
             </div>
+
+            <!-- IA -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1620789550663-2b10e0080354?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <h3 class="card-title">IA Aplicada</h3>
-                    <p class="card-text">Inteligência artificial integrada ao seu fluxo.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9h6v6H9zM12 2v2M12 20v2M2 12h2M20 12h2M15 2v2M15 20v2M9 2v2M9 20v2"></path></svg>
+                <h3 class="card-title">IA Aplicada</h3>
+                <p class="card-text">Inteligência integrada ao fluxo.</p>
             </div>
+
+            <!-- Cloud -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1617775623669-20bff4ffaa5c?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <h3 class="card-title">Cloud</h3>
-                    <p class="card-text">Infraestrutura em nuvem resiliente e veloz.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M17.5 19c2.5 0 4.5-2 4.5-4.5S20 10 17.5 10c-.2 0-.5 0-.7.1C16 7.4 13.5 6 11 6 7.7 6 5 8.7 5 12c0 .2 0 .3 0 .5C3.3 13.2 2 15 2 17c0 2.2 1.8 4 4 4h11.5"></path></svg>
+                <h3 class="card-title">Cloud Labs</h3>
+                <p class="card-text">Infraestrutura em nuvem resiliente.</p>
             </div>
+
+            <!-- Data -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1548600916-dc8492f8e845?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <h3 class="card-title">Data Labs</h3>
-                    <p class="card-text">Decisões baseadas em dados em tempo real.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3"></path><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"></path></svg>
+                <h3 class="card-title">Data Science</h3>
+                <p class="card-text">Decisões baseadas em dados reais.</p>
             </div>
+
+            <!-- Scale -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1573824969595-a76d4365a2e6?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <h3 class="card-title">Scale Up</h3>
-                    <p class="card-text">Preparados para crescer exponencialmente.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
+                <h3 class="card-title">Scale Up</h3>
+                <p class="card-text">Crescimento exponencial guiado.</p>
             </div>
+
+            <!-- Ecosystem -->
             <div class="card">
-                <img src="https://images.unsplash.com/photo-1633936929709-59991b5fdd72?w=800&auto=format&fit=crop&q=60" class="card-img">
-                <div class="card-overlay"></div>
-                <div class="card-body">
-                    <h3 class="card-title">Ecossistema</h3>
-                    <p class="card-text">Integração total do seu fluxo digital.</p>
-                </div>
+                <svg class="card-icon-main" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="19" r="2"></circle><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><path d="M12 7v2M12 15v2M7 12h2M15 12h2"></path></svg>
+                <h3 class="card-title">Ecossistema</h3>
+                <p class="card-text">Integração total do seu fluxo.</p>
             </div>
 
         </div>
     </main>
 
     <footer class="footer-action">
-        <a href="index.html" class="premium-btn" id="backButton">
+        <a href="index.html" class="premium-btn">
             <div class="scanner"></div>
             voltar ao início
         </a>
     </footer>
 
-    <script>
-        document.getElementById('backButton').addEventListener('click', function(e) {
-            const x = e.clientX - e.currentTarget.getBoundingClientRect().left;
-            const y = e.clientY - e.currentTarget.getBoundingClientRect().top;
-            
-            const ripple = document.createElement('span');
-            ripple.className = 'click-ripple';
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => { ripple.remove(); }, 600);
-            console.log('Navegando...');
-        });
-    </script>
 </body>
 </html>
