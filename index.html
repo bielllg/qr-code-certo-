@@ -228,7 +228,7 @@
 
     .revealed-card {
       /* 1. Fundo com gradiente para simular luz na superfície */
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.05));
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.288), rgba(255, 255, 255, 0.05));
       position: relative;
       overflow: hidden;
 
@@ -262,7 +262,7 @@
       left: -150px;
       width: 400px;
       height: 400px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.466) 0%, rgba(255, 255, 255, 0) 70%);
       pointer-events: none;
       z-index: 1;
     }
@@ -272,16 +272,16 @@
       font-weight: 800;
       background: linear-gradient(to right,
           #ffffff 20%,
-          #ffffff 40%,
+          #ffffff96 40%,
           #ebeaea 50%,
-          #ffffff 60%,
+          #ffffff75 60%,
           #ffffff 80%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin-bottom: 1.5rem;
       line-height: 1.05;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 10px 30px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.63), 0 10px 30px rgba(0, 0, 0, 0.5);
       /* Animação de entrada + Brilho */
       animation:
         tracking-in-contract-bck-top 1.2s cubic-bezier(0.215, 0.610, 0.355, 1.000) both,
@@ -307,7 +307,7 @@
     .ripple-aura {
       position: absolute;
       inset: -2rem;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(8, 8, 8, 0);
       filter: blur(50px);
       opacity: 0;
       transition: opacity 0.7s ease;
@@ -333,23 +333,24 @@
       justify-content: center;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 10;
-      
+
       /* Efeito VIDRO TECNOLÓGICO (Foco Aumentado) */
-      background: rgba(30, 30, 30, 0.5);
+      background: rgba(0, 0, 0, 0.61);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      
+
       color: white;
       text-decoration: none;
       min-width: 360px;
       height: 85px;
-      
+
       /* Sombras e Bordas (Foco Solar Intensificado) */
-      box-shadow: 
+      box-shadow:
         15px 25px 50px rgba(0, 0, 0, 0.6),
-        0 0 30px rgba(255, 255, 255, 0.1), /* Brilho ambiente constante */
+        0 0 30px rgba(255, 255, 255, 0.1),
+        /* Brilho ambiente constante */
         inset 1px 1px 3px rgba(255, 255, 255, 0.5);
-      
+
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-top-color: rgba(255, 255, 255, 0.7);
       border-left-color: rgba(255, 255, 255, 0.7);
@@ -359,21 +360,39 @@
     }
 
     @keyframes focus-breathing {
-      0%, 100% { transform: scale(1); box-shadow: 15px 25px 50px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.1); }
-      50% { transform: scale(1.02); box-shadow: 20px 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 255, 255, 0.2); }
+
+      0%,
+      100% {
+        transform: scale(1);
+        box-shadow: 15px 25px 50px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.1);
+      }
+
+      50% {
+        transform: scale(1.02);
+        box-shadow: 20px 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 255, 255, 0.2);
+      }
     }
 
-    .circuit-l, .circuit-r {
+    .circuit-l,
+    .circuit-r {
       position: absolute;
       height: 100%;
       top: 0;
       pointer-events: none;
-      opacity: 0.6; /* Mais visível */
+      opacity: 0.6;
+      /* Mais visível */
       transition: opacity 0.3s ease, transform 0.4s ease;
     }
 
-    .circuit-l { left: 10px; width: 100px; }
-    .circuit-r { right: 10px; width: 40px; }
+    .circuit-l {
+      left: 10px;
+      width: 100px;
+    }
+
+    .circuit-r {
+      right: 10px;
+      width: 40px;
+    }
 
     .ripple-btn:hover .circuit-l,
     .ripple-btn:hover .circuit-r {
@@ -387,12 +406,10 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        135deg, 
-        rgba(255, 255, 255, 0.15) 0%, 
-        rgba(255, 255, 255, 0.05) 40%,
-        transparent 100%
-      );
+      background: linear-gradient(135deg,
+          rgba(255, 255, 255, 0.15) 0%,
+          rgba(255, 255, 255, 0.05) 40%,
+          transparent 100%);
       pointer-events: none;
       z-index: 2;
     }
@@ -401,7 +418,8 @@
       position: relative;
       z-index: 10;
       letter-spacing: 1px;
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); /* Foco no texto */
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      /* Foco no texto */
       pointer-events: none;
       font-size: 1.6rem;
       font-weight: 800;
@@ -422,6 +440,157 @@
       pointer-events: none;
       z-index: 1;
       animation: loopRipple 3.5s infinite ease-in-out;
+    }
+
+    /* --- NOVOS DETALHES TECNOLÓGICOS --- */
+
+    /* Textura de ruído de fundo (Efeito de material tecnológico) */
+    .ripple-btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.03);
+      filter: url(#noiseFilter);
+      /* Referencia o filtro SVG */
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Scanner Horizontal */
+    .scanner-line {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right,
+          transparent,
+          rgba(255, 255, 255, 0.1) 40%,
+          rgba(255, 255, 255, 0.4) 50%,
+          rgba(255, 255, 255, 0.1) 60%,
+          transparent);
+      transform: skewX(-20deg);
+      z-index: 15;
+      pointer-events: none;
+      animation: scan-move 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes scan-move {
+      0% {
+        left: -100%;
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 0.1;
+      }
+
+      50% {
+        left: 100%;
+        opacity: 0;
+      }
+
+      100% {
+        left: 100%;
+        opacity: 0;
+      }
+    }
+
+    /* HUD Corner Brackets */
+    .btn-corner {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      z-index: 20;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+    }
+
+    .corner-tl {
+      top: -5px;
+      left: -5px;
+      border-right: 0;
+      border-bottom: 0;
+    }
+
+    .corner-tr {
+      top: -5px;
+      right: -5px;
+      border-left: 0;
+      border-bottom: 0;
+    }
+
+    .corner-bl {
+      bottom: -5px;
+      left: -5px;
+      border-right: 0;
+      border-top: 0;
+    }
+
+    .corner-br {
+      bottom: -5px;
+      right: -5px;
+      border-left: 0;
+      border-top: 0;
+    }
+
+    .ripple-wrapper:hover .corner-tl {
+      transform: translate(-8px, -8px);
+      border-color: rgba(255, 255, 255, 1);
+      filter: drop-shadow(0 0 5px white);
+    }
+
+    .ripple-wrapper:hover .corner-tr {
+      transform: translate(8px, -8px);
+      border-color: rgba(255, 255, 255, 1);
+      filter: drop-shadow(0 0 5px white);
+    }
+
+    .ripple-wrapper:hover .corner-bl {
+      transform: translate(-8px, 8px);
+      border-color: rgba(255, 255, 255, 1);
+      filter: drop-shadow(0 0 5px white);
+    }
+
+    .ripple-wrapper:hover .corner-br {
+      transform: translate(8px, 8px);
+      border-color: rgba(255, 255, 255, 1);
+      filter: drop-shadow(0 0 5px white);
+    }
+
+    /* Circuit Node Glowing */
+    .circuit-node {
+      fill: #fff;
+      filter: drop-shadow(0 0 4px #fff);
+      animation: node-pulse 2s infinite alternate ease-in-out;
+    }
+
+    @keyframes node-pulse {
+      0% {
+        opacity: 0.4;
+        transform: scale(0.8);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    /* Energy Flow Animation */
+    .energy-path {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: energy-flow 10s linear infinite;
+      opacity: 0.3;
+    }
+
+    @keyframes energy-flow {
+      to {
+        stroke-dashoffset: -100;
+      }
     }
 
     .circle-1 {
@@ -484,8 +653,55 @@
         border-radius: 0;
       }
 
-      .revealed-card {
+      .revealed-content {
         padding: 1.5rem;
+      }
+
+      .revealed-card {
+        padding: 3rem 1.5rem;
+        border-radius: 2.5rem;
+        width: 95%;
+        max-width: 100%;
+      }
+
+      .revealed-card h2 {
+        font-size: clamp(1.8rem, 10vw, 2.8rem);
+        margin-bottom: 1rem;
+        line-height: 1.1;
+      }
+
+      .revealed-card p {
+        font-size: 1.05rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+      }
+
+      .ripple-btn {
+        min-width: unset;
+        width: 100%;
+        max-width: 310px;
+        height: 70px;
+        padding: 1rem;
+      }
+
+      .text-content {
+        font-size: 1.25rem;
+      }
+
+      .circuit-l {
+        width: 70px;
+        left: 5px;
+      }
+
+      .circuit-r {
+        width: 30px;
+        right: 5px;
+      }
+
+      .text-mask h1 {
+        font-size: clamp(20px, 7vw, 70px);
+        letter-spacing: -0.04em;
       }
     }
   </style>
@@ -535,14 +751,24 @@
               <div class="ripple-aura"></div>
               <button class="ripple-btn">
                 <div class="inner-gloss"></div>
-                
+                <div class="scanner-line"></div>
+
+                <!-- HUD Corners -->
+                <div class="btn-corner corner-tl"></div>
+                <div class="btn-corner corner-tr"></div>
+                <div class="btn-corner corner-bl"></div>
+                <div class="btn-corner corner-br"></div>
+
                 <!-- Circuitagem Esquerda (como na imagem) -->
                 <svg class="circuit-l" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                  <circle cx="95" cy="25" r="3" fill="white" fill-opacity="0.8"/>
-                  <circle cx="85" cy="55" r="3" fill="white" fill-opacity="0.8"/>
-                  <circle cx="48" cy="33" r="2" fill="white" fill-opacity="0.6"/>
-                  <circle cx="10" cy="40" r="2" fill="white" fill-opacity="0.6"/>
+                  <path class="energy-path" d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50"
+                    stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                  <path d="M10 40H40M40 40L55 25H90M40 40L55 55H80M15 20H35L45 30M15 60H35L45 50" stroke="white"
+                    stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
+                  <circle class="circuit-node" cx="95" cy="25" r="3" fill="white" fill-opacity="0.8" />
+                  <circle class="circuit-node" cx="85" cy="55" r="3" fill="white" fill-opacity="0.8" />
+                  <circle class="circuit-node" cx="48" cy="33" r="2" fill="white" fill-opacity="0.6" />
+                  <circle class="circuit-node" cx="10" cy="40" r="2" fill="white" fill-opacity="0.6" />
                 </svg>
 
                 <span class="circle circle-1"></span>
@@ -550,14 +776,18 @@
                 <span class="circle circle-3"></span>
                 <span class="circle circle-4"></span>
                 <span class="circle circle-5"></span>
-                
+
                 <span class="text-content">começar agora</span>
 
                 <!-- Ícone Chip/Engrenagem Direita -->
                 <svg class="circuit-r" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="10" y="10" width="20" height="20" rx="2" stroke="white" stroke-width="2"/>
-                  <path d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                  <circle cx="20" cy="20" r="4" fill="white" fill-opacity="0.5"/>
+                  <rect x="10" y="10" width="20" height="20" rx="2" stroke="white" stroke-width="2" />
+                  <path class="energy-path"
+                    d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35" stroke="white"
+                    stroke-width="2" stroke-linecap="round" />
+                  <path d="M20 5V10M20 30V35M5 20H10M30 20H35M10 10L5 5M30 10L35 5M10 30L5 35M30 30L35 35"
+                    stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.3" />
+                  <circle class="circuit-node" cx="20" cy="20" r="4" fill="white" fill-opacity="0.5" />
                 </svg>
               </button>
             </div>
@@ -640,6 +870,16 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll(); // Chamada inicial
   </script>
+  <!-- Filtro SVG para Textura de Ruído (Usado no botão premium) -->
+  <svg style="display: none;">
+    <filter id="noiseFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.05" />
+      </feComponentTransfer>
+    </filter>
+  </svg>
 </body>
 
 </html>
