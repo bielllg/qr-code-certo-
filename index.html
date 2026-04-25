@@ -1000,6 +1000,36 @@
       </feComponentTransfer>
     </filter>
   </svg>
+
+  <!-- Tracking Script (envia dados para o painel admin) -->
+  <script>
+    (function() {
+      // Gera um ID único por visitante (salvo no navegador)
+      if (!localStorage.getItem('visitorId')) {
+        localStorage.setItem('visitorId', 'v_' + Math.random().toString(36).substr(2, 9));
+      }
+      const visitorId = localStorage.getItem('visitorId');
+
+      // Registra visualização
+      fetch('track.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'view', visitorId })
+      }).catch(() => {});
+
+      // Registra cliques nos botões "Começar Agora"
+      document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.ripple-btn');
+        if (btn && !btn.classList.contains('btn-alt')) {
+          fetch('track.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'click', visitorId })
+          }).catch(() => {});
+        }
+      });
+    })();
+  </script>
 </body>
 
 </html>

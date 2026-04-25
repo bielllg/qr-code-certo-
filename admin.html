@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Gabriel Web</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+
+        body {
+            background: #0a0f1a;
+            color: #fff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .header h1 { font-size: 1.8rem; font-weight: 700; }
+        .header p { color: #9ca3af; font-size: 0.9rem; }
+        .header-actions { display: flex; gap: 0.75rem; }
+
+        .btn {
+            font-family: 'Outfit', sans-serif;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .btn:hover { background: rgba(255,255,255,0.12); }
+        .btn-danger { border-color: #ef4444; color: #ef4444; }
+        .btn-danger:hover { background: rgba(239,68,68,0.15); }
+
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 1.5rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .kpi-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.2); }
+        .kpi-label { color: #9ca3af; font-size: 0.85rem; margin-bottom: 0.5rem; }
+        .kpi-value { font-size: 2rem; font-weight: 700; }
+
+        /* Painéis */
+        .panels {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1rem;
+        }
+
+        .panel {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 1.5rem;
+        }
+        .panel h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; }
+
+        /* Chart */
+        .chart-box { height: 280px; }
+
+        /* Activity */
+        .activity-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            align-items: flex-start;
+        }
+        .activity-item:last-child { border-bottom: none; }
+
+        .activity-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+        .dot-blue { background: #3b82f6; }
+        .dot-green { background: #10b981; }
+        .dot-yellow { background: #f59e0b; }
+
+        .activity-text { font-size: 0.9rem; color: #d1d5db; line-height: 1.4; }
+        .activity-time { font-size: 0.75rem; color: #6b7280; margin-top: 2px; }
+
+        /* Loading */
+        .loading { text-align: center; color: #6b7280; padding: 3rem; }
+
+        /* Status */
+        .status-bar {
+            margin-top: 1.5rem;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.8rem;
+        }
+        .status-online { color: #10b981; }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .panels { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <h1>📊 Painel Admin</h1>
+            <p>Dados em tempo real do seu site</p>
+        </div>
+        <div class="header-actions">
+            <a href="/" class="btn">← Voltar ao Site</a>
+            <button class="btn" onclick="loadStats()">🔄 Atualizar</button>
+            <button class="btn btn-danger" onclick="resetData()">🗑 Resetar Dados</button>
+        </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-label">👁 Visualizações Totais</div>
+            <div class="kpi-value" id="totalViews">—</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">👥 Visitantes Únicos</div>
+            <div class="kpi-value" id="uniqueVisitors">—</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">🖱 Cliques no Botão</div>
+            <div class="kpi-value" id="totalClicks">—</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">📈 Taxa de Conversão</div>
+            <div class="kpi-value" id="conversionRate">—</div>
+        </div>
+    </div>
+
+    <!-- Painéis -->
+    <div class="panels">
+        <div class="panel">
+            <h3>Tráfego (últimos 7 dias)</h3>
+            <div class="chart-box">
+                <canvas id="trafficChart"></canvas>
+            </div>
+        </div>
+        <div class="panel">
+            <h3>Atividade Recente</h3>
+            <div id="activityList">
+                <div class="loading">Carregando...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">Conectando ao servidor...</div>
+
+    <script>
+        let chart = null;
+
+        async function loadStats() {
+            try {
+                const res = await fetch('stats.php');
+                const data = await res.json();
+
+                // Atualiza KPIs
+                document.getElementById('totalViews').textContent = data.totalViews.toLocaleString('pt-BR');
+                document.getElementById('uniqueVisitors').textContent = data.uniqueVisitors.toLocaleString('pt-BR');
+                document.getElementById('totalClicks').textContent = data.clicks.toLocaleString('pt-BR');
+                document.getElementById('conversionRate').textContent = data.conversionRate + '%';
+
+                // Atualiza Gráfico
+                if (chart) chart.destroy();
+                const ctx = document.getElementById('trafficChart').getContext('2d');
+                const gradient = ctx.createLinearGradient(0, 0, 0, 280);
+                gradient.addColorStop(0, 'rgba(59,130,246,0.4)');
+                gradient.addColorStop(1, 'rgba(59,130,246,0)');
+
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.chart.labels,
+                        datasets: [{
+                            label: 'Views',
+                            data: data.chart.values,
+                            borderColor: '#3b82f6',
+                            backgroundColor: gradient,
+                            borderWidth: 2.5,
+                            pointBackgroundColor: '#0a0f1a',
+                            pointBorderColor: '#3b82f6',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255,255,255,0.04)' },
+                                ticks: { color: '#6b7280' }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#6b7280' }
+                            }
+                        }
+                    }
+                });
+
+                // Atualiza Atividades
+                const actList = document.getElementById('activityList');
+                if (data.activities.length === 0) {
+                    actList.innerHTML = '<div class="loading">Nenhuma atividade ainda. Acesse seu site para começar!</div>';
+                } else {
+                    actList.innerHTML = data.activities.map(a => {
+                        const dotClass = a.color === 'green' ? 'dot-green' : a.color === 'yellow' ? 'dot-yellow' : 'dot-blue';
+                        return `
+                            <div class="activity-item">
+                                <div class="activity-dot ${dotClass}"></div>
+                                <div>
+                                    <div class="activity-text">${a.text}</div>
+                                    <div class="activity-time">${a.time}</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                document.getElementById('statusBar').innerHTML = '<span class="status-online">● Conectado</span> — Última atualização: ' + new Date().toLocaleTimeString('pt-BR');
+
+            } catch (err) {
+                document.getElementById('statusBar').innerHTML = '🔴 Erro de conexão. Verifique se o PHP está rodando no seu servidor (Hostinger/cPanel).';
+            }
+        }
+
+        async function resetData() {
+            if (!confirm('Tem certeza que deseja apagar todos os dados?')) return;
+            await fetch('stats.php?action=reset');
+            loadStats();
+        }
+
+        // Carrega ao abrir e atualiza a cada 10 segundos
+        loadStats();
+        setInterval(loadStats, 10000);
+    </script>
+</body>
+</html>
