@@ -1011,7 +1011,7 @@
       const visitorId = localStorage.getItem('visitorId');
 
       // Registra visualização
-      fetch('track.php', {
+      fetch('/api/track', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: 'view', visitorId })
@@ -1021,7 +1021,7 @@
       document.addEventListener('click', function(e) {
         const btn = e.target.closest('.ripple-btn');
         if (btn && !btn.classList.contains('btn-alt')) {
-          fetch('track.php', {
+          fetch('/api/track', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ type: 'click', visitorId })

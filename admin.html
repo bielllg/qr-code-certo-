@@ -183,7 +183,7 @@
 
         async function loadStats() {
             try {
-                const res = await fetch('stats.php');
+                const res = await fetch('/api/stats');
                 const data = await res.json();
 
                 // Atualiza KPIs
@@ -257,13 +257,13 @@
                 document.getElementById('statusBar').innerHTML = '<span class="status-online">● Conectado</span> — Última atualização: ' + new Date().toLocaleTimeString('pt-BR');
 
             } catch (err) {
-                document.getElementById('statusBar').innerHTML = '🔴 Erro de conexão. Verifique se o PHP está rodando no seu servidor (Hostinger/cPanel).';
+                document.getElementById('statusBar').innerHTML = '🔴 Erro de conexão. Verifique se os endpoints /api/stats e /api/track estão funcionando.';
             }
         }
 
         async function resetData() {
             if (!confirm('Tem certeza que deseja apagar todos os dados?')) return;
-            await fetch('stats.php?action=reset');
+            await fetch('/api/stats?action=reset');
             loadStats();
         }
 
